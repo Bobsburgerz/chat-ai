@@ -1,8 +1,10 @@
 [build]
-  # Specify the directory where the output of the build command goes
-  publish = "out"
-  # Command used to build your Next.js site
+  publish = ".next"
   command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 
 [[redirects]]
   from = "/*"
