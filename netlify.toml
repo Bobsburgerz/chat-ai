@@ -1,0 +1,10 @@
+[build]
+  # Specify the directory where the output of the build command goes
+  publish = "out"
+  # Command used to build your Next.js site
+  command = "npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

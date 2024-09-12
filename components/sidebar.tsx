@@ -38,11 +38,12 @@ const navigate = (name: string) => {
   } else {
     router.push(`${nav}`)
   }
+  
 }
      
-     const nav = opt == "Messages" ? "/character/00"  : opt == "Home" ? "/main" : "/main"
+     const nav = opt == "Messages" ? "/character/00"  : opt == "Home" ? "/home" : "/home"
             return (
-             
+              
           <div onClick={() =>  navigate(opt)} key={opt} className={`${styles.options} ${isActive  ? styles.active : ''}`}>{opt}</div>)
 })}
         </div>
