@@ -54,6 +54,7 @@ const char = products.find((prod) => convo.model == prod.id)
   setCharacter(char)
   setMessages(filteredMessages);
   setSelectedConvo(convo);
+  setSelectedModel(char)
 
 }
 
@@ -69,13 +70,7 @@ const newConversation = convos?.find((convo: Conversation) => convo !== provider
     setConversation(newConversation);
   }};
 
-useEffect(() => {
-if (id == "00" && convos?.length > 0) {
-setConversation(convos[0])
-} else (
-setConversation(current)
-)
-}, [])
+ 
 
 
 
@@ -195,7 +190,15 @@ setSignup(true)
     convo._id !== selectedConvo?._id && convo.model !== selectedModel?.id.toString()
   );
 
-  
+
+  useEffect(() => {
+    if (id == "00" && convos?.length > 0) {
+    setConversation(filteredConvos[0])
+    } else (
+    setConversation(current)
+    )
+    }, [])
+  console.log("selectedModel", selectedModel)
   console.log("Selected id", selectedModel?.id,filteredConvos)
   return (
     <div>
@@ -216,6 +219,7 @@ setSignup(true)
     style={{ display: 'flex', columnGap: '15px', alignItems: 'center'}}
   >
     <div>
+      
       <img className={styles.proPic} src={selectedModel?.image} />
     </div>
 
@@ -237,9 +241,8 @@ setSignup(true)
  </div>
   </div>
 
-            {filteredConvos.map((convo: any) => {
-       
-           const model = products.filter((prod) => prod.id !== selectedModel?.id).find((prod) => prod.id !== convo.model)
+   {filteredConvos.map((convo: any) => {
+  const model = products.filter((prod) => prod.id !== selectedModel?.id).find((prod) => prod.id == convo.model)
            return  (
 
 
@@ -256,7 +259,7 @@ setSignup(true)
 
     <div className={styles.flex}>
     <div style={{ display: 'flex', gap: '6px', flexDirection: 'column' }}>
-    <h3>{model?.name}!! {selectedModel?.id} {convo.model} {JSON.stringify(convo.model)} </h3>
+    <h3>{model?.name} </h3>
      
    
       {convo.messages.length == 1 ?  
