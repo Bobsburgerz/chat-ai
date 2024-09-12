@@ -1,0 +1,41 @@
+.sidebar {
+    width: 250px;
+    padding: 20px;
+     background-color: #202020;
+     color:white;
+    border-right: 1px solid #ddd;
+  }
+ 
+  .options {
+    padding: 5px;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin: 8px;
+    cursor: pointer;
+    font-size: 21px;
+  
+  }
+
+  .active {
+    border-bottom: 1px solid #ff4081;
+    color: #ff4081;
+  }
+
+  .options_register {
+    padding: 5px;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin: 8px;
+    cursor: pointer;
+    background-color: #ff4080d5;
+    font-size: 21px;
+  
+  }
+
+
+   
+  .options:hover {
+    color: #ff4081;
+    transition: .3s ease-in-out;
+    transform: scale(1.02,1.02);
+  }
