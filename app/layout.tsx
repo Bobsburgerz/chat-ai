@@ -51,10 +51,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
 
-        <PersistGate loading={<div>Loading...</div>} persistor={persistedStore}>
+        <PersistGate loading={
+          <div className="loading-cont" style={{justifyContent: 'center', display: 'flex', alignItems: 'center', height: '100vh'}}>
+          <div className="pulse-heart">❤️</div></div>} persistor={persistedStore}>
         <AppProvider>
           <Provider store={store}>
-            <WebSocketComponent /> {/* Include WebSocket component */}
+            <WebSocketComponent />
             {children}
           </Provider>
           </AppProvider>
