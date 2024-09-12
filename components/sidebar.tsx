@@ -41,7 +41,7 @@ const navigate = (name: string) => {
   
 }
      
-     const nav = opt == "Messages" ? "/character/00"  : opt == "Home" ? "/home" : "/home"
+     const nav = opt == "Messages" ? "/character/00"  : opt == "Home" ? "/" : "/"
             return (
               
           <div onClick={() =>  navigate(opt)} key={opt} className={`${styles.options} ${isActive  ? styles.active : ''}`}>{opt}</div>)
