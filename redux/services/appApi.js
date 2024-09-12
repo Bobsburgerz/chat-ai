@@ -20,7 +20,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://3000-bblandrew-eronext-2okhi716c3s.ws-us116.gitpod.io/api',
+  baseUrl: 'https://eroai.netlify.app/api',
   credentials: 'include',
   prepareHeaders: (headers, {getState}) => {
  let token = 7
