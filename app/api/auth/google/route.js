@@ -10,7 +10,7 @@ const usersCollection = 'users';
  
 const clientId = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-const redirectUri = ' https://cumcams.xyz/api/auth/google';
+const redirectUri = 'https://cumcams.xyz/api/auth/google';
 
 const oAuth2Client = new OAuth2Client(clientId, clientSecret, redirectUri);
 
