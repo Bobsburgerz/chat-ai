@@ -284,6 +284,8 @@ setSignup(true)
 
           <div id="cont-2" className={`${styles.flexItemCent} ${styles.chatContainer}`}>
             <div className={styles.block}> <div><img className={styles.proPic_sm}src={selectedModel?.image}/></div>  {selectedModel?.name}    </div>
+           
+           <div style={{height: '100vh', width: '100%'}}> 
             <div ref={chatBoxRef} className={styles.chatBox}>
               {messages.filter((msg) => msg.role !== 'system').map((msg, index) => (
                 <p key={index} style={{justifyContent: msg.role === 'user' ? 'end' : 'start'}} 
@@ -310,9 +312,12 @@ setSignup(true)
               }}
               className={styles.chatInput}
             />
-            <button          onClick={handleSend} className={styles.sendButton}>Send</button></div>
+            <button          onClick={handleSend} className={styles.sendButton}>Send</button>
+            
+            
+            </div>
           </div>
-
+</div>
           <div id="cont-3" className={styles.flexItem}>
         
             <img src={character?.image} alt={character?.name} className={styles.characterImage} />

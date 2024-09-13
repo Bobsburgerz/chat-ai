@@ -99,14 +99,15 @@ top: 0px;
 }
 
 .chatBox {
-  height: 70vh;
+  height: 80%;
   overflow-y: auto;
   padding: 15px;
+   
   width: 100%;
   display: flex;
   flex-direction:column;
  
-  margin-bottom: 22px;
+ 
 }
 
 .userMessage {
@@ -138,9 +139,9 @@ top: 0px;
 }
 
 .chatInput {
- width:31%;
-  
  
+  
+ width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -148,10 +149,10 @@ top: 0px;
 }
 .inputCont{
   display:flex;
-  position: absolute;
+ padding: 15px;
   width: 100%;
   justify-content: center;
-  bottom:25px;
+
 }
 .sendButton {
   
@@ -200,17 +201,16 @@ top: 0px;
   background-color: hsla(0, 0%, 15%, 0.566);
   color: white;
   display:flex;
- 
   padding: 3px 20px;
-   top: -30px;
+ top: 0px;
    width: 100%;
   font-size: larger;
   font-weight: 700;
-  
   align-items: center;
   column-gap: 15px;
   z-index: 9333399;
-  position:relative;
+  position: sticky;
+
   
 }
 
@@ -224,6 +224,19 @@ top: 0px;
   .flexItem_chats {
     display:none
   }
+
+  .chatBox {
+    
+    height: 75%;
+    overflow-y: auto;
+    padding: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction:column;
+   
+  
+  }
+  
   .chatInput {
     width:100%;
      
@@ -233,5 +246,6 @@ top: 0px;
      border-radius: 8px;
      font-size: 16px;
    }
+   
 }
  
