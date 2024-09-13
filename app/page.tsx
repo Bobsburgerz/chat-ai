@@ -10,7 +10,7 @@ import { useNewConvoMutation } from "../redux/services/appApi";
 import { useRouter } from 'next/navigation';
 const Products = () => {
   const [newConvo, { isError, isLoading, error }] = useNewConvoMutation();
-const convos = useSelector((state: any) => state.conversations); 
+ 
   const router = useRouter();
   const user = useSelector((state: any) => state.user);
  const makeConvo = async (product:any) => {
@@ -30,7 +30,7 @@ const convos = useSelector((state: any) => state.conversations);
     <main className={styles.productGrid}>
     
           {products.map((product) => (
-           //        <Link key={product.id} href={`/character/${product.id}`} passHref> 
+            
             <div onClick={() => makeConvo( product)} key={product.id} className={styles.card}>
               <img
                 src={product.image}

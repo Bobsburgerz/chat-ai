@@ -190,9 +190,9 @@ setSignup(true)
     convo._id !== selectedConvo?._id && convo.model !== selectedModel?.id.toString()
   );
 
-
   useEffect(() => {
     if (id == "00" && convos?.length > 0) {
+
     setConversation(filteredConvos[0])
     } else (
     setConversation(current)
@@ -207,7 +207,7 @@ setSignup(true)
         <Sidebar />
                 {signup && <> <Signup onClose={() => setSignup(false)} character={characterId }/></>}
         <div className={styles.characterContainer}>
-          <div id="cont-1" className={styles.flexItem}>
+          <div id="cont-1" className={styles.flexItem_chats}>
             <h2 style={{margin:'10px'}}>Chats</h2>
 
 

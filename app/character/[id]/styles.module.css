@@ -25,12 +25,17 @@
 }
 .flexItem {
   color: white;
-   text-align: start;
+  text-align: start;
   flex: 1;
   display: flex;
-  flex-direction: column;
-  
-   
+  flex-direction: column;   
+}
+.flexItem_chats {
+  color: white;
+  text-align: start;
+  flex: 1;
+  display: flex;
+  flex-direction: column;   
 }
 .convo {
   cursor: pointer;
@@ -181,3 +186,17 @@ top: 0px;
 .sendButton:hover {
   background-color: #e80daa
 }
+
+
+@media (max-width: 1024px) {
+  .flexItem {
+    display:none
+  }
+}
+ 
+@media (max-width: 764px) {
+  .flexItem_chats {
+    display:none
+  }
+}
+ 

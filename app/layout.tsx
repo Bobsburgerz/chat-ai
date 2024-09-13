@@ -26,7 +26,7 @@ export default function RootLayout({
   ReactGA.send({
     hitType: 'pageview',
     page: 'home',
-    title: document.title,
+    title: 'home',
   });
  
 
