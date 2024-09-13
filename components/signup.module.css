@@ -8,8 +8,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 100000000;
 }
+
+.googleButton {
+  background-color: #f3f3f3;
+  color: rgb(61, 61, 61);
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  column-gap: 15px;
+}
+
+.googleIcon {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+.googleButton:hover {
+  background-color: #ffffff;
+}
+
+
 
 .modal {
   background: #333; /* Dark gray background */
@@ -68,9 +96,32 @@
   color: white;
 }
 
+.or {
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+
+.dash {
+  width: 100%;
+  height: 1px; /* Adjust height as needed */
+  background: linear-gradient(to right, white, transparent);
+}
+.dash_r {
+  width: 100%;
+  height: 1px; /* Adjust height as needed */
+  background: linear-gradient(to left, white, transparent);
+}
+
+
 .button {
   width: 100%;
   padding: 10px;
+  font-size: 18px;
   margin-top: 20px;
   background-color: magenta; /* Magenta button color */
   color: white;
@@ -97,4 +148,19 @@
 .footerLinks a {
   color: magenta; /* Magenta link color */
   text-decoration: none;
+}
+
+
+@media (max-width:764px) {
+  .image {
+    display: none;
+
+  }  
+  .title {
+    text-align: start;
+    margin-bottom: 20px;
+  }
+  .form {
+    width: 100%
+  }
 }
