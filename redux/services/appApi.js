@@ -20,7 +20,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `https://zany-system-4jg5g54gvvx5fjpq4-3000.app.github.dev/api`,
+  baseUrl: `${process.env.API_URL || 'https://cumcams.xyz'}/api`,
   credentials: 'include',
   prepareHeaders: (headers, {getState}) => {
  let token = 7
