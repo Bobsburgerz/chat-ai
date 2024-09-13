@@ -50,7 +50,8 @@ const Products = () => {
     const googleId = searchParams.get('googleId');
     const login = async () => {
     if (googleId && user) {
-      setTimeout(() =>  router.push(`/character/1`), 1000 )
+      window.location.reload();
+      setTimeout(() =>  router.push(`/character/1`), 1200 )
       
     }}
 
