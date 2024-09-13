@@ -51,8 +51,8 @@ const Products = () => {
     const login = async () => {
     if (googleId && user) {
   
-      setTimeout(() =>  router.push(`/character/1`), 1200 )
-      window.location.reload();
+      setTimeout(() =>  router.push(`/character/1`), 1400 )
+   
     }}
 
     login()
