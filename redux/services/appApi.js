@@ -20,7 +20,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `${process.env.API_URL || 'https://cumcams.xyz'}/api`,
+  baseUrl: `${process.env.API_URL}/api`,
   credentials: 'include',
   prepareHeaders: (headers, {getState}) => {
  let token = 7

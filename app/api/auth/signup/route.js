@@ -9,7 +9,7 @@ const usersCollection = 'users';
 
 export async function POST(request) {
   const { email, password } = await request.json();
-
+console.log(request.json)
   // Connect to MongoDB
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
   
@@ -23,7 +23,7 @@ export async function POST(request) {
     
     if (existingUser) {
       return new Response(JSON.stringify({ error: 'User already exists' }), {
-        status: 409,
+        status: 410,
         headers: { 'Content-Type': 'application/json' },
       });
     }
