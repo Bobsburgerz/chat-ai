@@ -64,7 +64,7 @@ async function fetchGoogleUserFromDatabase(id, googleId) {
   const mockUser = {
     id: '123',
     email: 'user@example.com',
-    pwd: 'password123', // In reality, you should hash and compare the password
+    password: 'password123', // In reality, you should hash and compare the password
   };
 
   if (id && googleId ) {
