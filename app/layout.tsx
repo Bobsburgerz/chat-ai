@@ -1,7 +1,4 @@
-"use client";
-
-import { useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+"use client"; 
 import { Inter } from "next/font/google";
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
@@ -24,35 +21,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const page = pathname + searchParams.toString();
-
-    // Track initial page view
-    ReactGA.send({
-      hitType: 'pageview',
-      page: page,
-      title: document.title,
-    });
-
-    // Track page views on route change
-    const handleRouteChange = () => {
-      ReactGA.send({
-        hitType: 'pageview',
-        page: page,
-        title: document.title,
-      });
-    };
-
-    // You may need to add a listener for route changes depending on your setup
-
-    // Clean up the event listener on component unmount
-    return () => {
-      // If you added listeners, make sure to clean them up here
-    };
-  }, [pathname, searchParams]);
+  
+ 
+  ReactGA.send({
+    hitType: 'pageview',
+    page: 'home',
+    title: document.title,
+  });
+ 
 
   return (
     <html lang="en">
