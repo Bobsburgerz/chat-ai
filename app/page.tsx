@@ -50,8 +50,8 @@ const Products = () => {
     const googleId = searchParams.get('googleId');
     const login = async () => {
     if (googleId && user) {
-  
-      setTimeout(() =>  router.push(`/character/00`), 1400 )
+      await newConvo({ provider: products[0] });
+      setTimeout(() =>  router.push(`/character/1`), 1400 )
    
     }}
 
@@ -75,7 +75,7 @@ const Products = () => {
     
           {products.map((product) => (
             
-            <div onClick={() => makeConvo( product)} key={product.id} className={styles.card}>
+            <div onClick={() => makeConvo(product)} key={product.id} className={styles.card}>
               <img
                 src={product.image}
                 alt={product.name}

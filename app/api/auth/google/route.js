@@ -10,7 +10,7 @@ const usersCollection = 'users';
  
 const clientId = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-const redirectUri = 'https://cumcams.xyz/api/auth/google';
+const redirectUri = 'https://zany-system-4jg5g54gvvx5fjpq4-3000.app.github.dev/api/auth/google';
 
 const oAuth2Client = new OAuth2Client(clientId, clientSecret, redirectUri);
 
@@ -85,7 +85,7 @@ export async function GET(request) {
     return new Response(null, {
       status: 302, 
       headers: {
-        'Location': `  https://cumcams.xyz/?id=${existingUser._id}&googleId=${userInfo.data.id}`, 
+        'Location': `  https://zany-system-4jg5g54gvvx5fjpq4-3000.app.github.dev/?id=${existingUser._id}&googleId=${userInfo.data.id}`, 
         'Set-Cookie': cookie,
       },
     });

@@ -50,7 +50,7 @@ const CharacterPage = () => {
     role,
   }));
 
-const char = products.find((prod) => convo.model == prod.id)
+const char = products.find((prod) => convo?.model == prod.id)
   setCharacter(char)
   setMessages(filteredMessages);
   setSelectedConvo(convo);
