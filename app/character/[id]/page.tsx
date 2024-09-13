@@ -283,6 +283,7 @@ setSignup(true)
           </div>
 
           <div id="cont-2" className={`${styles.flexItemCent} ${styles.chatContainer}`}>
+            <div className={styles.block}> <div><img className={styles.proPic_sm}src={selectedModel?.image}/></div>  {selectedModel?.name}    </div>
             <div ref={chatBoxRef} className={styles.chatBox}>
               {messages.filter((msg) => msg.role !== 'system').map((msg, index) => (
                 <p key={index} style={{justifyContent: msg.role === 'user' ? 'end' : 'start'}} 

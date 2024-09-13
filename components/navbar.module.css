@@ -36,3 +36,9 @@
     color: #c9225a;
   }
   
+
+  @media (max-width: 764px) {
+    .nav ul {
+      display: none;
+    }
+  } 
