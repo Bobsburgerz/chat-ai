@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styles from './signup.module.css'; 
 import { useNewConvoMutation, useUpdateUserMutation } from '@/redux/services/appApi';
 import products from './products';
-import { signIn } from 'next-auth/react'; 
+
 type SignupProps = {
   onClose: () => void; 
   character?: string 
@@ -16,8 +16,19 @@ const Signup = ({ onClose , character }: SignupProps) => {
   const [newConvo ] = useNewConvoMutation();
   const [showModal, setShowModal] = useState(true);
   const [updateUser, { isError, isLoading }] = useUpdateUserMutation();
-  const handleGoogleSignup = () => {
-    signIn('google', { callbackUrl: '/' });
+
+  // Handle Google Signup
+  const handleGoogleSignup = async () => {
+    try {
+      
+   
+      window.location.href = '/api/auth/providers';
+      
+ 
+    } catch (err: any) {
+      console.error('Google OAuth redirection no', err.message);
+      setError('Failed to redirect to Google OAuth');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,8 +52,6 @@ const Signup = ({ onClose , character }: SignupProps) => {
        await newConvo({ provider: char })
        window.location.reload();
        }
-    
-    
       } else {
         const errorData = await res.json();
         setError(errorData.error || 'An error occurred');
@@ -55,7 +64,7 @@ const Signup = ({ onClose , character }: SignupProps) => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    onClose()
+    onClose();
   };
 
   if (!showModal) return null;
@@ -101,16 +110,19 @@ const Signup = ({ onClose , character }: SignupProps) => {
               />
               <button type="submit" className={styles.button}>Start For Free</button>
               <br/>
-              <div className={styles.or}><div className={styles.dash_r}/><div>or</div><div className={styles.dash}/></div>
+              <div className={styles.or}>
+                <div className={styles.dash_r}/> 
+                <div>or</div>
+                <div className={styles.dash}/>
+              </div>
               <br/>
               <div className={styles.oauthContainer}>
-            <button onClick={handleGoogleSignup} className={styles.googleButton}>
-              Google <img className={styles.googleIcon} src="https://res.cloudinary.com/dgyn6qakv/image/upload/v1726205352/Google__G__logo.svg_wbwbbz.png" />
-            </button>
-          </div>
+                <div onClick={handleGoogleSignup} className={styles.googleButton}>
+                  Google <img className={styles.googleIcon} src="https://res.cloudinary.com/dgyn6qakv/image/upload/v1726205352/Google__G__logo.svg_wbwbbz.png" />
+                </div>
+              </div>
             </form>
           </div>
-          
         </div>
       </div>
     </>

@@ -1,14 +1,17 @@
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
+import { ideahub } from 'googleapis/build/src/apis/ideahub';
 
 export async function POST(request) {
-  const { email, password } = await request.json();
-console.log(email, password)
-  // Replace this with your actual user validation logic
-  const user = await fetchUserFromDatabase(email, password);
-
-  if (user) {
-    // Create JWT token
+  const { email, password, googleId, id } = await request.json();
+ let user
+ if (googleId) {
+   user = await fetchGoogleUserFromDatabase(id, googleId);
+ } else {
+  user = await fetchUserFromDatabase(email, password);
+ }
+  if (user.email) {
+  
     const token = jwt.sign(
       {
         id: user.id,
@@ -51,6 +54,20 @@ async function fetchUserFromDatabase(email, password) {
   };
 console.log(mockUser)
   if (email && password ) {
+    return mockUser;
+  } else {
+    return null;
+  }
+}
+
+async function fetchGoogleUserFromDatabase(id, googleId) {
+  const mockUser = {
+    id: '123',
+    email: 'user@example.com',
+    googleId: 'password123', // In reality, you should hash and compare the password
+  };
+
+  if (id && googleId ) {
     return mockUser;
   } else {
     return null;

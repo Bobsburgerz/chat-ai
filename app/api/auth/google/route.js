@@ -2,22 +2,21 @@ import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 import { MongoClient } from 'mongodb';
 import { OAuth2Client } from 'google-auth-library';
+import { google } from 'googleapis'; 
 
- 
 const uri = process.env.MONGO_URI;
 const dbName = 'test';
 const usersCollection = 'users';
-
-// Google OAuth2 client setup
+ 
 const clientId = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
- 
+const redirectUri = 'https://zany-system-4jg5g54gvvx5fjpq4-3000.app.github.dev/api/auth/google';
 
-const oAuth2Client = new OAuth2Client(clientId, clientSecret);
+const oAuth2Client = new OAuth2Client(clientId, clientSecret, redirectUri);
 
 export async function GET(request) {
   const url = new URL(request.url);
-  const code = url.searchParams.get('code'); // Get authorization code from URL
+  const code = url.searchParams.get('code'); 
 
   if (!code) {
     return new Response(JSON.stringify({ error: 'Authorization code not found' }), {
@@ -27,11 +26,10 @@ export async function GET(request) {
   }
 
   try {
-    // Exchange authorization code for access token
+ 
     const { tokens } = await oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
-
-    // Get user info from Google
+ 
     const oauth2 = google.oauth2({
       auth: oAuth2Client,
       version: 'v2',
@@ -46,18 +44,17 @@ export async function GET(request) {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-
-    // Connect to MongoDB
+ 
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(usersCollection);
 
-    // Check if the user already exists
+ 
     let existingUser = await collection.findOne({ email });
 
     if (!existingUser) {
-      // Create new user if not found
+    
       const newUser = { email, googleId: userInfo.data.id };
 
       const result = await collection.insertOne(newUser);
@@ -69,14 +66,13 @@ export async function GET(request) {
       existingUser = newUser;
     }
 
-    // Generate JWT token
+ 
     const token = jwt.sign(
       { id: existingUser._id, email: existingUser.email },
       process.env.JWT_SECRET || 'xybgj',
       { expiresIn: '1h' }
     );
-
-    // Serialize cookie with JWT token
+ 
     const cookie = serialize('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -85,11 +81,11 @@ export async function GET(request) {
       sameSite: 'strict',
     });
 
-    // Redirect user to the homepage after setting the cookie
+  
     return new Response(null, {
-      status: 302, // HTTP status for redirection
+      status: 302, 
       headers: {
-        'Location': 'https://cumcams.xyz/', // Redirect to this URL
+        'Location': `https://cumcams.xyz/?id=${existingUser._id}&googleId=${userInfo.data.id}`, 
         'Set-Cookie': cookie,
       },
     });

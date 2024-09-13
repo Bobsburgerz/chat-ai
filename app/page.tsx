@@ -1,17 +1,33 @@
 
 'use client'
-import React from 'react';
+import React , {useEffect} from 'react';
 import styles from './page.module.css'; 
 import Sidebar from "../components/sidebar"
 import Navbar from "../components/navbar" 
 import products from '@/components/products';
 import { useSelector , useDispatch} from "react-redux";
-import { useNewConvoMutation } from "../redux/services/appApi";
-import { useRouter } from 'next/navigation';
+import { useNewConvoMutation, useUpdateUserMutation } from "../redux/services/appApi";
+ 
+import { useRouter, useSearchParams } from 'next/navigation';
+
 const Products = () => {
   const [newConvo, { isError, isLoading, error }] = useNewConvoMutation();
  
+  const searchParams = useSearchParams(); // Get URL params
+  const [updateUser] = useUpdateUserMutation();
   const router = useRouter();
+  useEffect(() => {
+    const id = searchParams.get('id');
+    const googleId = searchParams.get('googleId');
+    const login = async () => {
+    if (googleId) {
+      await updateUser(JSON.stringify({ id, googleId }))
+      router.push(`/character/1`);
+    }}
+
+    login()
+  }, [searchParams]);
+ 
   const user = useSelector((state: any) => state.user);
  const makeConvo = async (product:any) => {
   if (user) {
