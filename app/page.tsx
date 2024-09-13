@@ -34,13 +34,28 @@ const Products = () => {
     const login = async () => {
     if (googleId) {
       await updateUser(JSON.stringify({ id, googleId }))
-      router.push(`/character/1`);
+   
     }}
 
     login()
   }, [searchParams]);
  
+
+
+
   const user = useSelector((state: any) => state.user);
+
+  useEffect(() => {
+    
+    const googleId = searchParams.get('googleId');
+    const login = async () => {
+    if (googleId && user) {
+      setTimeout(() =>  router.push(`/character/1`), 1000 )
+      
+    }}
+
+    login()
+  }, [user]);
  const makeConvo = async (product:any) => {
   if (user) {
   await newConvo({ provider: product });
