@@ -45,7 +45,7 @@ const CharacterPage = () => {
  const [deleteConvo, { isError, isLoading, error }] = useDeleteConvoMutation();
  const setConversation = (convo: Conversation) => {
   if (user) {
- const filteredMessages = convo.messages.map(({ content, role }) => ({
+ const filteredMessages = convo?.messages?.map(({ content, role }) => ({
     content,
     role,
   }));
@@ -89,7 +89,7 @@ The roleplay starts here: ${def?.prompt}`
 
   useEffect(() => {
     if (id !== "00") {
-    if (messages.length < 2) {
+    if (messages?.length < 2) {
       if (character?.id.toString() !== id) {
         const newMessages = [
           ...messages, 
@@ -227,11 +227,11 @@ setSignup(true)
     <div style={{ display: 'flex', gap: '6px', flexDirection: 'column' }}>
       <h3>{selectedModel?.name}</h3>
  
-      <p>{selectedConvo?.messages.length == 1 ? <>{selectedModel?.firstMessage.slice(0,32)}
+      <p>{selectedConvo?.messages?.length == 1 ? <>{selectedModel?.firstMessage.slice(0,32)}
       
        
       {selectedModel?.firstMessage && selectedModel.firstMessage.length > 28 ? '...' : ''}
-        </> : <>{selectedConvo?.messages[selectedConvo?.messages.length - 1].content.slice(0,32)}</>} </p>
+        </> : <>{selectedConvo?.messages[selectedConvo?.messages?.length - 1].content.slice(0,32)}</>} </p>
     
     </div>
    
@@ -262,14 +262,14 @@ setSignup(true)
     <h3>{model?.name} </h3>
      
    
-      {convo.messages.length == 1 ?  
+      {convo.messages?.length == 1 ?  
 
       <>
          <p>  {model?.firstMessage?.slice(0, 20)}{' '}
          {model?.firstMessage && model.firstMessage.length > 28 ? '...' : ''}</p> </> :
         <>
            <p>
-  {convo.messages[convo.messages.length - 1].content.slice(0,20)} {convo.messages[convo.messages.length - 1].content.length > 28 ? <>... </> : ""}</p>
+  {convo.messages[convo.messages?.length - 1].content.slice(0,20)} {convo?.messages[convo?.messages?.length - 1].content.length > 28 ? <>... </> : ""}</p>
     </>}
     </div>
    
@@ -287,7 +287,7 @@ setSignup(true)
            
            <div style={{height: '100vh', width: '100%'}}> 
             <div ref={chatBoxRef} className={styles.chatBox}>
-              {messages.filter((msg) => msg.role !== 'system').map((msg, index) => (
+              {messages?.filter((msg) => msg.role !== 'system').map((msg, index) => (
                 <p key={index} style={{justifyContent: msg.role === 'user' ? 'end' : 'start'}} 
                 className={msg.role === 'user' ? styles.userMessage : styles.aiMessage}>
                   {msg.content}
