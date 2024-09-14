@@ -24,8 +24,7 @@ import Head from 'next/head';
 
 const Products = () => {
   const [newConvo, { isError, isLoading, error }] = useNewConvoMutation();
- 
-  const searchParams = useSearchParams(); // Get URL params
+  const searchParams = useSearchParams();  
   const [updateUser] = useUpdateUserMutation();
   const router = useRouter();
   useEffect(() => {

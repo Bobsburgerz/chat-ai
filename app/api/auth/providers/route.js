@@ -53,7 +53,7 @@ export async function POST(request) {
 
     // Check if user already exists
     let user = await collection.findOne({ email });
-
+console.log("Fffhrfhrufhr")
     if (!user) {
       // If the user doesn't exist, create a new user
       user = {
@@ -62,6 +62,7 @@ export async function POST(request) {
       };
       await collection.insertOne(user);
     }
+    
 
     // Create JWT token
     const token = jwt.sign(

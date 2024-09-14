@@ -50,16 +50,17 @@ export async function GET(request) {
     const db = client.db(dbName);
     const collection = db.collection(usersCollection);
 
- 
+  
     let existingUser = await collection.findOne({ email });
-
+ 
     if (!existingUser) {
     
       const newUser = { email, googleId: userInfo.data.id };
 
       const result = await collection.insertOne(newUser);
-
+console.log(result)
       if (!result.insertedId) {
+        console.log('err making new user')
         throw new Error('Error creating new user');
       }
 
