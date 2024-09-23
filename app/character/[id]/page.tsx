@@ -28,6 +28,7 @@ interface Character {
 
 interface Conversation {
   _id?: any;
+  user: number;
  model:number;
   messages: Messages[];
 }
@@ -40,7 +41,8 @@ const CharacterPage = () => {
  const chatBoxRef = useRef<HTMLDivElement | null>(null);
  const [selectedConvo, setSelectedConvo] = useState<Conversation | null>()
  const user = useSelector((state: any) => state.user);
- const convos = useSelector((state: any) => state.conversations);
+ const con = useSelector((state: any) => state.conversations);
+ const convos = con.filter((c:any) => c.user == user?._id)
  const [updateConvo ] = useUpdateConvoMutation()
  const [deleteConvo, { isError, isLoading, error }] = useDeleteConvoMutation();
  const setConversation = (convo: Conversation) => {
@@ -65,6 +67,7 @@ const current = convos?.find((convo: any) => convo.model == id)
 const deleteMessage = async (provider: any) => {
  
   await deleteConvo(provider);
+  console.log("Okay")
 const newConversation = convos?.find((convo: Conversation) => convo !== provider);
   if (newConversation) {
     setConversation(newConversation);
@@ -289,7 +292,7 @@ setSignup(true)
 )}
 
     </div>
-   
+
     <button className={styles.delete} onClick={() => deleteMessage({provider: convo})}><img style={{width: '20px'}}
     src={'https://res.cloudinary.com/dgyn6qakv/image/upload/v1724487425/delete_wxgjd9.png'}/></button>
 
