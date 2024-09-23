@@ -4,7 +4,7 @@ import { MongoClient } from 'mongodb';
 
 const convoSchema = new mongoose.Schema({
   model: { type: String, required: true },
-  user:  { type: String },
+  user: { type: mongoose.Schema.Types.ObjectId, required: true }, 
   messages: [
     {
       content: { type: String },
@@ -19,12 +19,12 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const { provider, email } = body;
-
+    const uri = process.env.MONGO_URI; 
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     const dbName = 'test';
     const usersCollection = 'users';
     
-   
+    await dbConnect();
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(usersCollection);
@@ -39,7 +39,7 @@ export async function POST(request) {
       });
     }
  
-        const user = await collection.findOne({ email });
+    const user = await collection.findOne({ email });
 
     const convo = {
       model: provider.id,
@@ -54,10 +54,12 @@ export async function POST(request) {
         },
       ],
     };
- 
-    const existingConvo = await Convo.findOne({ model: provider.id, userId: user._id});
 
-    if (existingConvo) {
+     
+ 
+    const existingConvo = await Convo.find({ model: provider.id, user: user._id});
+    console.log(existingConvo.length)
+    if (existingConvo.length >= 1) {
       return new Response(JSON.stringify({ error: 'Conversation with this model already exists' }), {
         status: 409,
         headers: { 'Content-Type': 'application/json' },
@@ -65,15 +67,10 @@ export async function POST(request) {
     }
     const createdConvo = await Convo.create(convo);
     const newArray = await Convo.find();
-    console.log(newArray)
+     
     if (createdConvo) {
       return new Response(JSON.stringify(newArray), { status: 200 });
-    } else {
-      return new Response(JSON.stringify({ error: 'Something went wrong' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
+    }  
   } catch (error) {
     console.error(error.message);
     return new Response(JSON.stringify({ error: 'Something went wrong' }), {

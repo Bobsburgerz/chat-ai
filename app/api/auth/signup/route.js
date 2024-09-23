@@ -21,6 +21,9 @@ export async function POST(request) {
 
     // Check if the user already exists
     const existingUser = await collection.findOne({ email });
+
+console.log(existingUser)
+
     if (existingUser) {
       return new Response(JSON.stringify({ error: 'User already exists' }), {
         status: 410,

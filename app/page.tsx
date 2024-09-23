@@ -66,7 +66,6 @@ const Products = () => {
  }
   return (
     <div className={styles.main}>
- 
     <Navbar/>
     <div className={styles.container}>
     <Sidebar/>

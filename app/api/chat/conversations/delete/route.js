@@ -19,7 +19,7 @@ export async function DELETE(request) {
       await dbConnect();
     }
 
-    
+    console.log("HIT")
 
  
     const body = await request.json();
