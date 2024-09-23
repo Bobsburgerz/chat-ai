@@ -258,7 +258,7 @@ setSignup(true)
     onClick={() => setConversation(convo)}
     className={`${styles.convo} ${selectedConvo?._id == convo.id ? styles.selectedConvo : ''}`}
     style={{ display: 'flex', columnGap: '15px', alignItems: 'center'}}
-  > at
+  > 
     <div>
       <img className={styles.proPic} src={model?.image || selectedModel?.image} />
     </div>
@@ -268,17 +268,26 @@ setSignup(true)
     <h3>{model?.name || selectedModel?.name} </h3>
      
    
-      {convo.messages?.length == 1 ?  
+    {convo.messages?.length === 1 ? (
+  <>
+    <p>
+      {model?.firstMessage?.slice(0, 20) || selectedModel?.firstMessage?.slice(0, 20)}{' '}
+      {model?.firstMessage && model.firstMessage.length > 28 
+        ? '...' 
+        : selectedModel?.firstMessage && selectedModel.firstMessage.length > 28 
+        ? '...' 
+        : ''}
+    </p>
+  </>
+) : (
+  <>
+    <p>
+      {convo?.messages?.[convo.messages.length - 1]?.content?.slice(0, 20)}{' '}
+      {convo?.messages?.[convo.messages.length - 1]?.content.length > 28 ? '...' : ''} rff
+    </p>
+  </>
+)}
 
-      <>
-         <p>  {model?.firstMessage?.slice(0, 20) || selectedModel?.firstMessage.slice(0,20)}{' '}
-         {model?.firstMessage && model.firstMessage.length > 28 ? '...' : '' || selectedModel?.firstMessage && selectedModel.firstMessage.length > 28 ? '...' : ''} </p> </> :
-       
-       
-       <>
-           <p>
-  {convo.messages[convo.messages?.length - 1].content.slice(0,20)} {convo?.messages[convo?.messages?.length - 1].content.length > 28 ? <>... </> : ""} rff</p>
-    </>}
     </div>
    
     <button className={styles.delete} onClick={() => deleteMessage({provider: convo})}><img style={{width: '20px'}}
