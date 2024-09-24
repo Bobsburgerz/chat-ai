@@ -11,7 +11,7 @@ import "./globals.css";
 import ReactGA from 'react-ga4';
 
 // Initialize Google Analytics
-ReactGA.initialize('G-2VXMGK8877');
+ReactGA.initialize('G-6CMSG2WN8J');
 
 const inter = Inter({ subsets: ["latin"] });
 const persistedStore = persistStore(store);
