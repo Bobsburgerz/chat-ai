@@ -49,10 +49,10 @@ const navigate = (name: string) => {
         </div>
 
         {user ? <>     <div onClick={() => logout({email: "", id: ""})}
-         style={{position: 'absolute', bottom:'30px', width: '190px' }}className={styles.options}>Logout</div></> : <> 
+         style={{position: 'absolute', bottom:'30px', width: '150px' }}className={styles.options}>Logout</div></> : <> 
          
          <div onClick={() => setSignup(true)}
-         style={{position: 'absolute', bottom:'30px', width: '190px' }}className={styles.options_register}>Get Started</div>
+         style={{position: 'absolute', bottom:'30px', width: '150px' }}className={styles.options_register}>Get Started</div>
          
          </>}
      

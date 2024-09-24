@@ -67,8 +67,11 @@ const Products = () => {
   return (
     <div className={styles.main}>
     <Navbar/>
+    
     <div className={styles.container}>
     <Sidebar/>
+ <div className={styles.subcont} > 
+    <img className={styles.banner}  src="https://res.cloudinary.com/dgyn6qakv/image/upload/v1727160448/Frame_7_hgwdpo.png"/>
     <main className={styles.productGrid}>
     
           {products.map((product) => (
@@ -85,7 +88,7 @@ const Products = () => {
               <p>{product.age || 18} Years Old</p></div>
             </div> 
           ))}
-        </main>
+        </main></div>
       </div>
        
     </div>
