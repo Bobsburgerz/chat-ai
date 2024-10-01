@@ -47,7 +47,7 @@ export async function POST(request) {
       messages: [
         {
           content: `
-            (( respond to the user's inputs as an immersive fictional roleplay or chat. ...
+            (( respond to the user's inputs as an immersive fictional roleplay or chat. If the user wants a picture of you to send a photo include **function** in your  ...
             ${provider.prompt}
           `,
           role: 'system',

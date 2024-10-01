@@ -152,7 +152,47 @@ top: 0px;
  padding: 15px;
   width: 100%;
   justify-content: center;
+  flex-direction: column;
 
+}
+
+ .pics {
+  background-color: #272727;
+  color: white;
+  padding:5px;
+  border-radius: 5px;
+  text-align: start;
+  position: absolute;
+  width: fit-content;
+  bottom: 27px;
+  z-index: 1;
+ }
+
+ 
+ 
+.picHeader {
+  display:flex;
+  justify-content: space-between;
+}
+
+
+ .pics button {
+  margin: 5px;
+  background-color: #c9225a;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 10px;
+
+ }
+ .pics h4 {
+  margin-bottom: 5px;
+ }
+
+.innerCont {
+  display: flex;
+  z-index: 3;
 }
 .sendButton {
   

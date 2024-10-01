@@ -36,6 +36,7 @@
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
+    "replicate": "^0.34.0",
     "ws": "^8.18.0"
   },
   "devDependencies": {
@@ -44,6 +45,7 @@
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
+    "@gradio/client": "^1.6.0-beta.3",
     "@types/jest": "^29.5.12",
     "@types/node": "^20",
     "@types/react": "^18",

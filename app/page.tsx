@@ -1,6 +1,6 @@
 
 'use client'
-import React , {useEffect} from 'react';
+import React , {useEffect, useState} from 'react';
 import styles from './page.module.css'; 
 import Sidebar from "../components/sidebar"
 import Navbar from "../components/navbar" 
@@ -11,6 +11,7 @@ import { useNewConvoMutation, useUpdateUserMutation } from "../redux/services/ap
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import Head from 'next/head';
+import generatePicture from '@/helpers/picture';
 
 <Head>
   <title>Build a Connection with Your AI Companion | Flirt, Confide, and Chat</title>
@@ -41,9 +42,9 @@ const Products = () => {
  
 
 
-
+const [pic, setPic] = useState()
   const user = useSelector((state: any) => state.user);
-
+  
   useEffect(() => {
     
     const googleId = searchParams.get('googleId');
@@ -67,7 +68,8 @@ const Products = () => {
   return (
     <div className={styles.main}>
     <Navbar/>
-    
+  
+     
     <div className={styles.container}>
     <Sidebar/>
  <div className={styles.subcont} > 

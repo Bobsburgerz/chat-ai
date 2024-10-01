@@ -8,6 +8,7 @@ import styles from './styles.module.css';
 import BeatLoader from 'react-spinners/BeatLoader';
 import products from '@/components/products';
 import Signup from '@/components/signup';
+import GeneratePicture from '@/helpers/picture';
 import { useDeleteConvoMutation, useUpdateConvoMutation } from '../../../redux/services/appApi'
 import { useSelector , useDispatch} from "react-redux";
 import { json } from 'stream/consumers';
@@ -23,7 +24,7 @@ interface Messages {
 }
 
 interface Character {
-  id: number; name: string; age: number; image: string; prompt: string; firstMessage: string; 
+  id: number; name: string; age: number; image: string; prompt: string; firstMessage: string;  skinTone: string ; hairColor:string;
 }
 
 interface Conversation {
@@ -138,6 +139,12 @@ The roleplay starts here: ${def?.prompt}`
 
 
 
+  const [isToggled, setIsToggled] = useState(false);
+
+  // Toggle function to change the position
+  const togglePosition = () => {
+    setIsToggled(!isToggled);
+  };
 
 
  
@@ -183,12 +190,9 @@ if (!user) {
 if(!user) {
 setSignup(true)
 } else {
-
-
     const newMessage: Message = { role: 'user', content: input };
     setMessages([...messages, newMessage]);
     console.log(selectedConvo?._id)
-    
     setMsgLoading(true)
     const response = await fetch('/api/chat/completions', {
       method: 'POST',
@@ -202,19 +206,21 @@ setSignup(true)
       const data = await response.json();
       const aiMessage: Message = { role: 'assistant', content: data.message };
      await updateConvo(data.convo)
-
-  
      const current = convos?.find((convo: any) => convo._id == data.convo._id)
      setSelectedConvo(current)
-      setMessages([...messages, newMessage, aiMessage]);
-      setMsgLoading(false)
+     setMessages([...messages, newMessage, aiMessage]);
+     setMsgLoading(false)
     } else {
       console.error('Error:', response.statusText);
     }
-  
     setInput('');
   }
   };
+
+  const sendPic = async () => {
+ await GeneratePicture("k", "l")
+ 
+  }
 
   useEffect(() => {
     if (selectedConvo) {
@@ -224,7 +230,10 @@ setSignup(true)
   }, [messages, handleSend, convos]);
 
   const filteredConvos = convos 
-
+  const picOptions = [{name: "Boobs", value:`Show Breasts, Boobs, Tits,  No Face, Faceless, Body Pic, Nice Body, beautiful woman ,
+    Hair Color: ${selectedModel?.hairColor}, Skin Color: ${selectedModel?.skinTone}`} ,
+     {name:"Ass", value: `Show Ass, Butt, Booty, Body Pic, Nice Body, No Face, Faceless, Beautiful woman 
+      Hair Color: ${selectedModel?.hairColor}, Skin Color: ${selectedModel?.skinTone}`}, {name: "Lingerie", value: `Show woman in sexy lingerie, sexy night wear, stockings,  No Face, Faceless,  Hair Color: ${selectedModel?.hairColor}, Skin Color: ${selectedModel?.skinTone} `}]
   useEffect(() => {
     if (id == "00" && convos?.length > 0) {
 
@@ -319,6 +328,31 @@ setSignup(true)
                 </div></>}
             </div>
             <div className={styles.inputCont}> 
+          
+          <div  onClick={togglePosition}  style={{
+          transform: isToggled ? "translateY(-40px)" : "translateY(0)",
+          transition: "transform 0.3s ease",  
+        }} className={styles.pics}>
+           <div className={styles.picHeader}><h4>Get Pictures</h4>           <div style={{
+            transform: isToggled ? "rotate(180deg)" : "rotate(0)",
+            transition: "transform 0.3s ease",  
+        }}>⌃</div>  </div>  
+             
+            <div style={{
+          opacity: isToggled ? "1" : "0",
+            transition: "transform 0.3s ease",  
+        }}>
+
+          {picOptions.map((opt, i) => {
+            return (
+            <>
+             <button key={i} onClick={() => GeneratePicture(opt.value, selectedModel?.image)} disabled={!isToggled}>Send {opt.name} Pics</button>
+            </>)
+          })}
+               
+            </div>
+          </div>
+          <div className={styles.innerCont}> 
             <input
               type="text"
               value={input}
@@ -333,7 +367,7 @@ setSignup(true)
               className={styles.chatInput}
             />
             <button          onClick={handleSend} className={styles.sendButton}>Send</button>
-            
+            </div>
             
             </div>
           </div>
