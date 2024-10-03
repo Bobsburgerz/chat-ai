@@ -1,39 +1,32 @@
+import axios from 'axios';
+
 const GeneratePicture = async (opt: string, img: string | undefined) => {
   try {
-    // Check if image URL is provided
+ 
     if (!img) {
       throw new Error("Image file URL is required.");
     }
 
-    const response = await fetch('https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev/api/chat/photo', {
-      method: 'POST',
+    const response = await axios.post('https://pythonapi-s7fm.onrender.com/generate', {"prompt": opt,
+      "source_image":img
+      
+    }, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        prompt: `${opt}, no face, only body, body pics, cropped, faceless, below face`,
-        imageFile: img,
-      }),
     });
 
-  
-    if (!response.ok) {
-      const errorBody = await response.json();  
-      throw new Error(`HTTP error! Status: ${response.status}, Message: ${JSON.stringify(errorBody)}`);
-    }
+    // Access the output from the response
+    const data = response.data;
 
-  
-    const data = await response.json();
-
- 
-    if (!data.output) {
+    if (!DataTransferItemList) {
       throw new Error("No output returned from the API.");
     }
 
-    console.log("Generated output:", data.output); // Log the output
-    return data.output;  
+    console.log("Generated output:", data); // Log the output
+    return data.face_swap_result.secure_url;
   } catch (error) {
-    console.error("Error generating picture:", error);
+    console.error("Error generating picture:");
     // Optional: rethrow the error if you want to handle it further up the chain
     throw error;  
   }

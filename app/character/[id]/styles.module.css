@@ -99,9 +99,10 @@ top: 0px;
 }
 
 .chatBox {
-  height: 80%;
+  height: 70vh;
   overflow-y: auto;
   padding: 15px;
+  padding-bottom: 30px;
    
   width: 100%;
   display: flex;
@@ -149,7 +150,10 @@ top: 0px;
 }
 .inputCont{
   display:flex;
- padding: 15px;
+  position: absolute;
+  bottom: 0px;
+  max-width: 100%;
+  padding: 15px;
   width: 100%;
   justify-content: center;
   flex-direction: column;
@@ -159,13 +163,14 @@ top: 0px;
  .pics {
   background-color: #272727;
   color: white;
-  padding:5px;
+  padding:3px 8px;
   border-radius: 5px;
   text-align: start;
   position: absolute;
   width: fit-content;
-  bottom: 27px;
-  z-index: 1;
+  bottom: 68px;
+  margin-left: 5px;
+  z-index: 0;
  }
 
  
@@ -173,6 +178,7 @@ top: 0px;
 .picHeader {
   display:flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 

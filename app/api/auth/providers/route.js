@@ -5,7 +5,7 @@ import { MongoClient } from 'mongodb';
 
 const clientId = process.env.GOOGLE_CLIENT_ID || '';
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
-const redirectUri = 'https://cumcams.xyz/api/auth/google';
+const redirectUri = 'https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev/api/auth/google';
 
 const oAuth2Client = new OAuth2Client(clientId, clientSecret, redirectUri);
 

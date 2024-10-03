@@ -10,8 +10,8 @@ import products from '@/components/products';
 import Signup from '@/components/signup';
 import GeneratePicture from '@/helpers/picture';
 import { useDeleteConvoMutation, useUpdateConvoMutation } from '../../../redux/services/appApi'
-import { useSelector , useDispatch} from "react-redux";
-import { json } from 'stream/consumers';
+import { useSelector} from "react-redux";
+ 
 interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
@@ -46,6 +46,7 @@ const CharacterPage = () => {
  const convos = con.filter((c:any) => c.user == user?._id)
  const [updateConvo ] = useUpdateConvoMutation()
  const [deleteConvo, { isError, isLoading, error }] = useDeleteConvoMutation();
+ const [msgLoading, setMsgLoading] = useState(false)
  const setConversation = (convo: Conversation) => {
   if (user) {
  const filteredMessages = convo?.messages?.map(({ content, role }) => ({
@@ -140,8 +141,7 @@ The roleplay starts here: ${def?.prompt}`
 
 
   const [isToggled, setIsToggled] = useState(false);
-
-  // Toggle function to change the position
+ 
   const togglePosition = () => {
     setIsToggled(!isToggled);
   };
@@ -153,7 +153,7 @@ The roleplay starts here: ${def?.prompt}`
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, msgLoading]);
 
 
   useEffect(() => {
@@ -171,7 +171,7 @@ The roleplay starts here: ${def?.prompt}`
  
  
 
-const [msgLoading, setMsgLoading] = useState(false)
+ 
 const [signup, setSignup] = useState(false)
 const [selectedModel , setSelectedModel] = useState<Character | null>()
  
@@ -216,11 +216,57 @@ setSignup(true)
     setInput('');
   }
   };
+  
+  let previousOpt = '';
 
-  const sendPic = async () => {
- await GeneratePicture("k", "l")
- 
-  }
+  const sendPic = async (opt: string, img: string | undefined) => {
+    setMsgLoading(true);
+  
+    
+    const generateRandomOpt = () => {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+      let randomOpt = '';
+      for (let i = 0; i < 2; i++) {
+        randomOpt += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return randomOpt;
+    };
+  
+   
+    let randomOpt = generateRandomOpt();
+    while (randomOpt === previousOpt) {
+      randomOpt = generateRandomOpt();
+    }
+  
+    previousOpt = randomOpt;   
+  
+    const finalOpt = `${opt}-${randomOpt}`;  
+   
+    const result = await GeneratePicture(finalOpt, img);
+  
+    const newMessage: Message = { role: 'assistant', content: `[*PHOTO*]:${JSON.stringify(result)}` };
+  
+    setMessages([...messages, newMessage]);
+    const response = await fetch('/api/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ messages: [...messages, newMessage], _id: selectedConvo?._id }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      const aiMessage: Message = { role: 'assistant', content: data.message };
+     await updateConvo(data.convo)
+     const current = convos?.find((convo: any) => convo._id == data.convo._id)
+     setSelectedConvo(current)
+     setMessages([...messages, newMessage, aiMessage]);
+     setMsgLoading(false)
+    } else {
+      console.error('Error:', response.statusText);
+    }
+  };
+
 
   useEffect(() => {
     if (selectedConvo) {
@@ -230,11 +276,13 @@ setSignup(true)
   }, [messages, handleSend, convos]);
 
   const filteredConvos = convos 
-  const picOptions = [{name: "Boobs", value:`Show Breasts, Boobs, Tits,  No Face, Faceless, Body Pic, Nice Body, beautiful woman ,
+  const picOptions = [{name: "Boobs", value:`Show Breasts, Perfect Boobs, Tits, No missing limbs, naked, bare naked, nude,  No deformity, perfect body, no disfigurement, attractive, no extra fingers, Body Pic, Nice Body, beautiful woman ,
     Hair Color: ${selectedModel?.hairColor}, Skin Color: ${selectedModel?.skinTone}`} ,
-     {name:"Ass", value: `Show Ass, Butt, Booty, Body Pic, Nice Body, No Face, Faceless, Beautiful woman 
-      Hair Color: ${selectedModel?.hairColor}, Skin Color: ${selectedModel?.skinTone}`}, {name: "Lingerie", value: `Show woman in sexy lingerie, sexy night wear, stockings,  No Face, Faceless,  Hair Color: ${selectedModel?.hairColor}, Skin Color: ${selectedModel?.skinTone} `}]
-  useEffect(() => {
+     {name:"Ass", value: `Show Ass, Butt, Booty, Body Pic, Nice Body,No missing limbs, naked, bare naked, nude,  No deformity, perfect body, no disfigurement, attractive, no extra fingers, Beautiful woman 
+      Hair Color: ${selectedModel?.hairColor}, Skin Color: ${selectedModel?.skinTone}`}, {name: "Lingerie", value: `Show woman in sexy lingerie, sexy night wear, stockings, No missing limbs, naked, bare naked, nude,  No deformity, perfect body, no disfigurement, attractive, no extra fingers,  Hair Color: ${selectedModel?.hairColor}, Skin Color: ${selectedModel?.skinTone} `}]
+  
+  
+      useEffect(() => {
     if (id == "00" && convos?.length > 0) {
 
     setConversation(filteredConvos[0])
@@ -242,8 +290,9 @@ setSignup(true)
     setConversation(current)
     )
     }, [])
-  console.log("selectedModel", selectedModel)
-  console.log("Selected id", selectedModel?.id,filteredConvos)
+ 
+
+
   return (
     <div>
       <Navbar />
@@ -317,10 +366,32 @@ setSignup(true)
            <div style={{height: '100vh', width: '100%'}}> 
             <div ref={chatBoxRef} className={styles.chatBox}>
               {messages?.filter((msg) => msg.role !== 'system').map((msg, index) => (
-                <p key={index} style={{justifyContent: msg.role === 'user' ? 'end' : 'start'}} 
+                <> 
+                  {msg.content.includes("[*PHOTO*]") ? (
+      <> 
+<a 
+style={{margin: '0px', alignSelf: 'start', padding: '5px'}}
+  href={msg.content.slice(11, msg.content.length - 1)} 
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  <img 
+    style={{width: "150px", height: "200px", borderRadius:'5px', objectFit: "cover"}} 
+    src={msg.content.slice(11, msg.content.length - 1)} 
+    alt="Generated" 
+    className={styles.image} 
+  />
+
+  
+</a>
+
+      </>
+    ) : (
+                <p key={index} style={{justifyContent: msg.role === 'user' ? 'end' : 'start', display: msg.content.length == 0 ? 'none' : 'block' }} 
                 className={msg.role === 'user' ? styles.userMessage : styles.aiMessage}>
                   {msg.content}
-                </p>
+                </p> )}
+                </>
               ))}
   {msgLoading && <> 
 <div  style={{justifyContent:  'start'}}className={ styles.aiMessage}>
@@ -329,30 +400,37 @@ setSignup(true)
             </div>
             <div className={styles.inputCont}> 
           
-          <div  onClick={togglePosition}  style={{
-          transform: isToggled ? "translateY(-40px)" : "translateY(0)",
+          
+            
+            </div>
+            <div  onClick={togglePosition}  style={{
+          transform: isToggled ? "translateY(0.1px)" : "translateY(0)",
           transition: "transform 0.3s ease",  
         }} className={styles.pics}>
-           <div className={styles.picHeader}><h4>Get Pictures</h4>           <div style={{
-            transform: isToggled ? "rotate(180deg)" : "rotate(0)",
-            transition: "transform 0.3s ease",  
-        }}>⌃</div>  </div>  
-             
-            <div style={{
-          opacity: isToggled ? "1" : "0",
+           <div className={styles.picHeader}><h4>Get Pictures</h4>       
+           
+           <div style={{ 
+          display: isToggled ? "block" : "none",
             transition: "transform 0.3s ease",  
         }}>
 
           {picOptions.map((opt, i) => {
             return (
             <>
-             <button key={i} onClick={() => GeneratePicture(opt.value, selectedModel?.image)} disabled={!isToggled}>Send {opt.name} Pics</button>
+             <button key={i} onClick={() => sendPic(opt.value, selectedModel?.image)} disabled={!isToggled}>Send {opt.name} Pics</button>
             </>)
           })}
                
             </div>
+               <div  style={{
+            display: isToggled ? "block" : "none",
+            transition: "transform 0.3s ease",  
+        }}>{"x"} </div>  </div>  
+             
+         
           </div>
-          <div className={styles.innerCont}> 
+           
+            <div className={styles.innerCont}> 
             <input
               type="text"
               value={input}
@@ -367,8 +445,6 @@ setSignup(true)
               className={styles.chatInput}
             />
             <button          onClick={handleSend} className={styles.sendButton}>Send</button>
-            </div>
-            
             </div>
           </div>
 </div>
