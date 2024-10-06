@@ -1,31 +1,31 @@
 import React from 'react';
-import { loadStripe } from '@stripe/stripe-js'; // Stripe SDK
+import { loadStripe } from '@stripe/stripe-js';  
 import styles from './notification.module.css';
 
 type SubProps = {
   onClose: () => void;
 };
 
-const stripePromise = loadStripe('your-publishable-key-here'); // Replace with your actual Stripe publishable key
+const stripePromise = loadStripe('pk_test_51LGwewJ0oWXoHVY4KaHYgICxXbe41zPhsxY9jYfVqgyEHK3oX4bwaoAvgXByAF2Ek2UAVZ0L6FjddQvAvBIMsB7t00fE5UAlwI'); 
 
 const Sub = ({ onClose }: SubProps) => {
 
-  // Function to handle plan selection and start the Stripe checkout session
+  
   const handleSelectPlan = async (priceId: string) => {
     const stripe = await stripePromise;
 
-    // Call your API route to create a checkout session
-    const response = await fetch('/api/create-checkout-session', {
+ 
+    const response = await fetch('/api/payments/checkout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ priceId }), // Send the selected priceId to the backend
+      body: JSON.stringify({ priceId }), 
     });
 
     const session = await response.json();
 
-    // Redirect to Stripe Checkout
+    
     const result = await stripe?.redirectToCheckout({
       sessionId: session.id, // The session id returned by your API
     });
@@ -53,7 +53,7 @@ const Sub = ({ onClose }: SubProps) => {
               <p className={styles.oldPrice}>Was $19.99/month</p>
               <button 
                 className={styles.subscribeButton} 
-                onClick={() => handleSelectPlan('price_12Months')}>
+                onClick={() => handleSelectPlan('price_1Q6pXwJ0oWXoHVY4qIPBWgre')}>
                 Select Plan
               </button>
             </div>
@@ -65,7 +65,7 @@ const Sub = ({ onClose }: SubProps) => {
               <p className={styles.oldPrice}>Was $19.99/month</p>
               <button 
                 className={styles.subscribeButton} 
-                onClick={() => handleSelectPlan('price_Monthly')}>
+                onClick={() => handleSelectPlan('price_1Q6pXGJ0oWXoHVY4wfCSfUw3')}>
                 Select Plan
               </button>
             </div>

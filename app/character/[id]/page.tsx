@@ -405,7 +405,8 @@ setSignup(true)
           
 
           <div id="cont-2" className={`${styles.flexItemCent} ${styles.chatContainer}`}>
-            <div className={styles.block}> <div><img className={styles.proPic_sm}src={selectedModel?.image}/></div>  {selectedModel?.name}    </div>
+     
+            <div className={styles.block}> <div><img className={styles.proPic_sm}src={selectedModel?.image}/></div>  {selectedModel?.name}        {user?.credits || "None"}{user?.email}   </div>
            
            <div style={{height: '100vh', width: '100%'}}> 
             <div ref={chatBoxRef} className={styles.chatBox}>

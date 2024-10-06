@@ -40,6 +40,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "replicate": "^0.34.0",
+    "stripe": "^17.1.0",
     "ws": "^8.18.0"
   },
   "devDependencies": {

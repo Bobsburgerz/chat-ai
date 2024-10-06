@@ -16,10 +16,10 @@ const GeneratePicture = async (
 
     if (!user.credits ) {
       const updatedUser = {
-        ...user,
+        email: user.email,
         credits: 0,
       };
-      await putUser({updatedUser});
+      await putUser(updatedUser);
        throw new Error("No Credits Remaining");
     } else if (user.credits == 0) {
       throw new Error("No Credits Remaining");
@@ -44,12 +44,12 @@ const GeneratePicture = async (
     
     if (user.credits > 0) {
       const updatedUser = {
-        ...user,
+        email: user.email,
         credits: user?.credits - 1,
       };
 
-     console.log(updatedUser)
-      const updateResponse = await putUser({updatedUser});
+     
+      const updateResponse = await putUser(updatedUser);
 
       if (updateResponse.error) {
         console.error("Error updating user credits:", updateResponse.error);
