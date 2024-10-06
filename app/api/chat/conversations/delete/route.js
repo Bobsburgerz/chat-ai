@@ -18,8 +18,7 @@ export async function DELETE(request) {
   try { if (mongoose.connection.readyState !== 1) {
       await dbConnect();
     }
-
-    console.log("HIT")
+ 
 
  
     const body = await request.json();

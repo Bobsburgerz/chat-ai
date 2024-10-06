@@ -12,7 +12,7 @@
 }
 
 .modal {
-  background-color: #333; /* Dark gray background */
+  background: radial-gradient(circle, #555, #333);
   color: white; /* White text color */
   padding: 20px;
   border-radius: 8px;
@@ -50,7 +50,7 @@
   width: 100%;
   padding: 10px;
   margin-top: 20px;
-  background-color: #FF00FF; /* Magenta color for button */
+  background-color: #FF00FF; /* rgb(209, 11, 179); color for button */
   color: white;
   border: none;
   border-radius: 4px;

@@ -94,10 +94,20 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
+.error-message {
+  background-color: rgb(232, 18, 18);
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  font-size: 21px;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
 
 .loading-cont {
-  background: linear-gradient(135deg, #363535 40%, #c9225a 100%);
+  background: linear-gradient(135deg, #363535 40%,  rgb(209, 11, 179) 100%);
 }
 .pulse-heart {
   display: inline-block;

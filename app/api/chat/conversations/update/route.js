@@ -18,7 +18,7 @@ export async function PUT(request) {
     if (mongoose.connection.readyState !== 1) {
       await dbConnect();
     }
-    // Parse the JSON body
+    await dbConnect();
     const body = await request.json();
     const  provider  = body;
 

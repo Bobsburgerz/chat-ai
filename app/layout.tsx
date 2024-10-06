@@ -36,7 +36,7 @@ export default function RootLayout({
         <PersistGate
           loading={
             <div className="loading-cont" style={{justifyContent: 'center', display: 'flex', alignItems: 'center', height: '100vh'}}>
-              <div className="pulse-heart">❤️</div>
+              <div className="pulse-heart">💜</div>
             </div>
           }
           persistor={persistedStore}

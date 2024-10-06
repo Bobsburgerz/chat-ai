@@ -1,0 +1,141 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000000;
+  }
+  
+  
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: white;
+    z-index: 100000000000000000000;
+    cursor: pointer;
+  }
+  
+  .modal {
+    background: radial-gradient(circle, #555, #333);
+    position: relative; /* Add this */
+    display: flex;
+    border-radius: 8px;
+    max-width: 800px;
+    z-index: 10000000000000000000;
+    width: 100%;
+    color: white;
+  }
+  
+  .imageContainer {
+    
+    display: flex;
+ 
+  }
+  
+  .image {
+    max-width: 85%;
+     object-fit: cover;
+ 
+  }
+  
+  .text {
+    margin: 35px 25px;
+    width: 55%;
+  }
+  
+  .planSelector {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .planCard {
+    background: linear-gradient(135deg, #1a1a1a, #262626);
+    padding: 15px;
+    border-radius: 10px;
+    width: 48%;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+  
+  .planCard:hover {
+    border-color: rgb(209, 11, 179);; /* Highlight effect on hover */
+  }
+  
+  .planCard h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  
+  .discount {
+    font-size: 14px;
+    color: rgb(209, 11, 179);;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .oldPrice {
+    font-size: 14px;
+    text-decoration: line-through;
+    color: #999;
+  }
+  
+  .subscribeButton {
+    background-color: rgb(209, 11, 179);;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .benefits {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  .benefits li {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 764px) {
+    .image {
+      display: none;
+    }
+  
+    .text {
+      width: 100%;
+    }
+  
+    .planSelector {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .planCard {
+      width: 100%;
+    }
+  }
+  

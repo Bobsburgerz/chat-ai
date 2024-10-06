@@ -17,8 +17,8 @@
   }
 
   .active {
-    border-bottom: 1px solid #ff4081;
-    color: #ff4081;
+    border-bottom: 1px solid rgb(209, 11, 179);;
+    color: rgb(209, 11, 179);;
   }
 
   .options_register {
@@ -27,7 +27,7 @@
     border-radius: 5px;
     margin: 8px;
     cursor: pointer;
-    background-color: #ff4080d5;
+    background-color: rgb(209, 11, 179);;
     font-size: 21px;
   
   }
@@ -35,7 +35,7 @@
 
    
   .options:hover {
-    color: #ff4081;
+    color: rgb(209, 11, 179);
     transition: .3s ease-in-out;
     transform: scale(1.02,1.02);
   }

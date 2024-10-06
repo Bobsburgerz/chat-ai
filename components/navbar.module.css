@@ -7,33 +7,59 @@
     background-color: #202020;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
-  
+  .btnPro {
+    background-color: rgb(209, 11, 179);;
+    padding: 10px 25px;
+    color: white;
+    border: 1px solid rgb(209, 11, 179);;
+    
+    border-radius: 25px;
+    position: relative;
+     
+    cursor: pointer;
+  }
+
+  .btnPro:hover {
+    border: 1px solid white;
+    transition: .3s ease-in-out;
+    background-color: #e42e6b;
+  }
   .logo {
     display: flex;
     align-items: center;
   }
+
+  
   
   .nav ul {
     display: flex;
+    align-items: center;
     list-style: none;
   }
   
   .nav ul li {
     margin-left: 20px;
+    cursor: pointer;
+    color: white; /* Explicitly set white */
+    border-bottom: 1px solid rgba(255, 255, 255, 0);
   }
   
   .nav ul li a {
+    cursor: pointer;
     text-decoration: none;
     color: #ffffff;
+  
     font-weight: 500;
-    transition: color 0.3s ease;
+ 
   }
   
-  .nav ul li a:hover {
-    color: #c9225a;
+  .nav ul li:hover {
+    
+    transition: 0.3s ease-in-out;
+    border-bottom: 1px solid rgb(255, 255, 255);
   }
   
 

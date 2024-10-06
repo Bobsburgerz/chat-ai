@@ -3,10 +3,12 @@
   font-family: 'Arial', sans-serif;
   color: white;
   margin: 0;
-  background: linear-gradient(135deg, #363535 40%, #c9225a 100%);
+  background: linear-gradient(135deg, #363535 40%, rgb(209, 11, 179) 100%);
   padding: 0;
 }
 
+
+ 
 
 .subcont {
   display: flex;
@@ -16,9 +18,47 @@
   overflow-y:auto;
 }
 
-.banner {
-  max-height: 326px;
+.bannerImg {
+  max-height: 340px;
+  max-width: 500px;
+  width: 100%;
+  margin-bottom: -15px;
+  object-position: top; 
   object-fit: cover;
+}
+
+.btnPro {
+  background-color: rgb(209, 11, 179);;
+  padding: 10px 25px;
+  color: white;
+  border: 1px solid rgb(209, 11, 179);;
+  font-size: larger;
+  border-radius: 25px;
+  position: relative;
+  cursor: pointer;
+   
+  
+}
+
+
+
+.btnPro:hover {
+  border: 1px solid white;
+  transition: .3s ease-in-out;
+  background-color: #e42e6b;
+}
+.banner {
+ 
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .container {

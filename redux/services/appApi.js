@@ -20,7 +20,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `https://cumcams.xyzapi`,
+  baseUrl: `https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev/api`,
   credentials: 'include',
   prepareHeaders: (headers, {getState}) => {
  let token = 7
@@ -100,6 +100,16 @@ export const appApi = createApi({
       }),
     }),
 
+    putUser: builder.mutation({
+      query: (user) => ({
+        url: "/user/update",
+        method: "POST",
+        body: user,
+        meta: { excludeAuthorization: true }, 
+      }),
+    }),
+
+
   
 
    
@@ -113,6 +123,7 @@ export const {
   useUpdateConvoMutation,
   useDeleteConvoMutation,
   useLoginMutation,
+  usePutUserMutation,
   useUpdateUserMutation,
   useLogoutMutation
 } = appApi;

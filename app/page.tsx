@@ -72,8 +72,14 @@ const [pic, setPic] = useState()
      
     <div className={styles.container}>
     <Sidebar/>
- <div className={styles.subcont} > 
-    <img className={styles.banner}  src="https://res.cloudinary.com/dgyn6qakv/image/upload/v1727160448/Frame_7_hgwdpo.png"/>
+ <div className={styles.subcont}> 
+ <div className={styles.banner}> 
+ <img className={styles.bannerImg}  src="https://res.cloudinary.com/dgyn6qakv/image/upload/v1728069038/Frame_1_4_kohcmm.png"/>
+ <div className={styles.flexCol}> 
+ <h1>Flirt with your AI Girlfriend</h1>
+ <button className={styles.btnPro}> Start Chatting </button></div>
+   <div>.</div>
+   </div>
     <main className={styles.productGrid}>
     
           {products.map((product) => (

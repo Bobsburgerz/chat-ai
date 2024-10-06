@@ -53,7 +53,7 @@ console.log(existingUser)
         { expiresIn: '1h' }
       );
 
-      // Serialize cookie
+    
       const cookie = serialize('token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',  // Ensure secure flag in production

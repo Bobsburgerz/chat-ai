@@ -1,78 +1,141 @@
-import { Client } from "@gradio/client";
+import axios from "axios";
+import prodia from '@api/prodia';
+import Replicate from "replicate";
+import { v2 as cloudinary } from 'cloudinary';
 
-// Function to convert a WebP image to a PNG Blob
-async function convertWebPToPNG(webpBlob) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+});
+ 
 
-    img.onload = function () {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      
-      // Export the canvas as a PNG Blob
-      canvas.toBlob((blob) => {
-        if (blob) {
-          resolve(blob);
-        } else {
-          reject(new Error("Failed to convert image to PNG"));
-        }
-      }, "image/png");
-    };
-
-    img.onerror = function () {
-      reject(new Error("Failed to load the image"));
-    };
-    
-    // Convert blob to URL and set as the image source
-    img.src = URL.createObjectURL(webpBlob);
-  });
-}
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { imageFile } = body;
+    const { prompt, source } = body;
 
-    // Fetch the WebP target image
-    const targetImageUrl = "https://arivmta19-enhanceaiteam-flux-uncensored.hf.space/file=/tmp/gradio/697e951971d673b54752bb9f2f78162d74053c62c1375014f384009dcf74a32e/image.webp";
-    const targetWebPBlob = await fetch(targetImageUrl).then((res) => {
-      if (!res.ok) throw new Error("Failed to fetch target image");
-      return res.blob();
+    if (!prompt) {
+      return new Response(JSON.stringify({ message: 'Prompt is required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Authenticate with Prodia API
+    await prodia.auth(`${process.env.PRODIA_API_TOKEN}`);
+
+    // Generate the image with Prodia
+    const prodiaResponse = await prodia.generate({
+      model: 'dreamshaper_8.safetensors [9d40847d]', 
+      negative_prompt: 'bad quality, mishshapen, ugly, deformity, extra limbs, extra fingers, worst quality, unrealistic', 
+      prompt: prompt
     });
 
-    // Convert the WebP image to PNG
-    const targetPngBlob = await convertWebPToPNG(targetWebPBlob);
+    // Validate the response and check for jobId
+    if (!prodiaResponse ) {
+      throw new Error('Failed to generate image or missing jobId');
+    }
+console.log(prodiaResponse)
+    const jobId = prodiaResponse.data.job;
 
-    // Fetch the source image (from the user's provided imageFile) as a Blob
-    const sourceImageBlob = await fetch(imageFile).then((res) => {
-      if (!res.ok) throw new Error("Failed to fetch source image");
-      return res.blob();
-    });
+    // Function to check job status with retries
+    const checkJobStatus = async (jobId, retries = 4, delay = 12000) => {
+      for (let attempt = 1; attempt <= retries; attempt++) {
+        console.log(`Checking job status, attempt: ${attempt}`);
 
-    // Connect to the Felix Rosberg's face-swap model on Gradio
-    const faceSwapClient = await Client.connect("felixrosberg/face-swap");
+        const jobStatusResponse = await prodia.getJob({ jobId });
+        const jobStatus = jobStatusResponse.data.status;
 
-    // Call the face swap API with the PNG target image and source image
-    const faceSwapResult = await faceSwapClient.predict("/run_inference", [
-      targetPngBlob,     // Target image as PNG blob (converted from WebP)
-      sourceImageBlob,   // Source image blob (provided by the user)
-      0,                 // Anonymization ratio (0-100%)
-      0,                 // Adversarial defense ratio (0-100%)
-      ["Compare"]        // Mode (Compare for visualization)
-    ]);
+        if (jobStatus == 'succeeded') {
+          return jobStatusResponse.data.imageUrl;   
+        }
 
-    // Return the face swap result
-    return new Response(JSON.stringify({ faceSwapResult }), { status: 200 });
-  } catch (error) {
-    console.error("Error running Gradio model:", error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+        if (attempt < retries) {
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+
+      throw new Error('Job did not complete after maximum retries.');
+    };
+
+    // Await image generation completion
+    const output = await checkJobStatus(jobId);
+
+    // If prompt includes "Booty", directly upload the generated image to Cloudinary
+    if (prompt.includes("Booty")) {
+      const cloudinaryResponse = await cloudinary.uploader.upload(output[0], {
+        format: 'jpg', // Customize the format if necessary
+      });
+
+      return new Response(JSON.stringify({ url: cloudinaryResponse.secure_url }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } else {
+      // Perform face-swap operation if the prompt does not include "Booty"
+      const faceSwapResponse = await replicate.run(
+        "omniedgeio/face-swap:1312a036be013a29527a1dffce2fbbd475fb134eb809f295859d435546d5c76b",
+        {
+          input: {
+            swap_image: source,
+            target_image: output,
+            disable_safety_checker: true,
+          },
+        }
+      );
+
+    
+      if (!faceSwapResponse ) {
+        throw new Error('Face swap failed');
+      }
+      const cloudinaryResponse = await cloudinary.uploader.upload(faceSwapResponse, {
+        format: 'jpg' 
+      });
+   
+      return new Response(JSON.stringify(  cloudinaryResponse ), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });}
+    } catch (error) {
+      console.error('Error generating image:', error);
+      return new Response(
+        JSON.stringify({ message: 'Error generating image', error: error.message }),
+        {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
   }
-}
+
 
 {/**
+
+  import Replicate from "replicate";
+
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+});
+
+Copy
+Run omniedgeio/face-swap using Replicate’s API. Check out the model's schema for an overview of inputs and outputs.
+
+const output = await replicate.run(
+  "omniedgeio/face-swap:1312a036be013a29527a1dffce2fbbd475fb134eb809f295859d435546d5c76b",
+  {
+    input: {
+      swap_image: "https://replicate.delivery/pbxt/JoBuzfSVFLb5lBqkf3v9xMnqx3jFCYhM5JcVInFFwab8sLg0/long-trench-coat.png",
+      target_image: "https://replicate.delivery/pbxt/JoBuz3wGiVFQ1TDEcsGZbYcNh0bHpvwOi32T1fmxhRujqcu7/9X2.png"
+    }
+  }
+);
+console.log(output);
     
     import Replicate from "replicate";
 
