@@ -65,7 +65,7 @@ The roleplay starts here:  ...
      
  
     const existingConvo = await Convo.find({ model: provider.id, user: user._id});
-    console.log(existingConvo.length)
+    
     if (existingConvo.length >= 1) {
       return new Response(JSON.stringify({ error: 'Conversation with this model already exists' }), {
         status: 409,

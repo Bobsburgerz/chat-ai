@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&family=Righteous&display=swap');
 .header {
     display: flex;
     justify-content: space-between;
@@ -10,6 +10,21 @@
     z-index: 100000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
+
+  .premiumBtn {
+    background: linear-gradient(145deg, #f0b002, #ffcc33, #f5b700);
+    background-size: 200% 200%;
+    border: 1px solid  rgb(252, 190, 5);
+    color: #fff;
+  
+    padding: 10px 25px;
+    border-radius: 25px;
+    box-shadow: 0 5px 15px  rgba(228, 180, 5, 0.62);
+    text-align: center;
+    cursor: pointer;
+  
+  }
+
   .btnPro {
     background-color: rgb(209, 11, 179);;
     padding: 10px 25px;
@@ -25,10 +40,15 @@
   .btnPro:hover {
     border: 1px solid white;
     transition: .3s ease-in-out;
-    background-color: #e42e6b;
+    
+    background-color: rgb(250, 11, 214);
+    box-shadow: 0 5px 15px  rgba(255, 238, 255, 0.62);
   }
   .logo {
     display: flex;
+    font-size: 25px;
+    margin-left: 10px;
+    font-family: "Poetsen One", sans-serif;
     align-items: center;
   }
 

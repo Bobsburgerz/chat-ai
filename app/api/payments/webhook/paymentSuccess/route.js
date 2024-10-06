@@ -2,36 +2,60 @@
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
  
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
+ 
 
 const uri = process.env.MONGO_URI;
 const dbName = 'test';
 const collection = 'users';
 
-const stripe = new Stripe('sk_test_51LGwewJ0oWXoHVY4pMmWjhneKKna7PB95rrVnDHeDiqxC1VAjHxx7oGFmmzAHvxOsrHr8C7rxWKDh5fET0gIpyVI002KxafOxj');
- 
-const endpointSecret = 'whsec_qb9rpVSfMJidnlKLUa5YxHfn95UJkcfX';
-
-async function updateUserCredits(userId, credits) {
- 
+const stripe = new Stripe(process.env.STRIPE_SECRET ? process.env.STRIPE_SECRET :'sk_test_51LGwewJ0oWXoHVY4pMmWjhneKKna7PB95rrVnDHeDiqxC1VAjHxx7oGFmmzAHvxOsrHr8C7rxWKDh5fET0gIpyVI002KxafOxj');
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET ? process.env.STRIPE_WEBHOOK_SECRET : 'whsec_qb9rpVSfMJidnlKLUa5YxHfn95UJkcfX';
  
 
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+async function updateUserCredits(userId, credits, customerId) {
+  const client = new MongoClient(uri);  
+
+  const updates = { credits, customer: customerId , premium: true};
+ 
+  try {
+    await client.connect();
+   let result = {}
+    const db = client.db(dbName);
+    const usersCollection = db.collection(collection);
+    if (userId) {
+      console.log(userId, "RAN")
+      const id = new ObjectId(userId); 
+      result = await usersCollection.findOneAndUpdate(
+        { _id: id },  
+        { $set: updates },
+        { returnDocument: 'after' }
+      );
+    } 
     
-  await client.connect();
-  const db = client.db(dbName);
-  const usersCollection= db.collection(collection);
+    
+    else if (customerId) {
+     
+      const res = await usersCollection.findOneAndUpdate(
+        { customer: customerId },  
+        { $set: updates },
+        { returnDocument: 'after' }
+      );
+      console.log('res', res)
+      result = res
+
+    }
   
 
- 
-  await usersCollection.updateOne(
-    { _id: userId },  
-    { $set: { credits } } 
-  );
+    console.log('Updated user:', result);
+    return result;
+  } catch (err) {
+    console.error('Error updating user credits:', err);
+    throw err;
+  } finally {
+    await client.close();  // Ensure the connection is closed
+  }
 }
-
-
-
 
 export async function POST(request) {
   const sig = request.headers.get('stripe-signature');
@@ -50,12 +74,12 @@ export async function POST(request) {
   switch (event.type) {
     case 'invoice.payment_succeeded':
       const invoice = event.data.object;
-      const userId = invoice. subscription_details.metadata.userId;
-      console.log("here", invoice, userId)  
+      const userId = null;
+      const customerId = invoice.customer
       try {
        
-        await updateUserCredits(userId, 80);
-        console.log(`Credits updated to 80 for user ${userId}`);
+        await updateUserCredits(userId, 70, customerId);
+        console.log(`Credits updated to 70 for user ${userId}`);
       } catch (err) {
         console.error('Failed to update user credits:', err);
       }

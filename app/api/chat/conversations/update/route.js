@@ -22,7 +22,7 @@ export async function PUT(request) {
     const body = await request.json();
     const  provider  = body;
 
-    console.log(provider);
+  
 
     if (!provider) {
       return new Response(JSON.stringify({ error: 'Invalid ' }), {
@@ -31,7 +31,7 @@ export async function PUT(request) {
       });
     }
 
-    // Find and update the conversation by model ID
+    
     const updatedConvo = await Convo.findByIdAndUpdate(
       { _id: provider._id }, // Filter criteria
       provider,

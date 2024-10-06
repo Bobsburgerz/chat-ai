@@ -14,6 +14,8 @@ export const productSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+
+        builder.addMatcher(appApi.endpoints.getConvos.matchFulfilled, (_, { payload }) => payload);
         builder.addMatcher(appApi.endpoints.newConvo.matchFulfilled, (_, { payload }) => payload);
         builder.addMatcher(appApi.endpoints.deleteConvo.matchFulfilled, (_, { payload }) => payload);
         builder.addMatcher(appApi.endpoints.updateConvo.matchFulfilled, (_, { payload }) => payload);

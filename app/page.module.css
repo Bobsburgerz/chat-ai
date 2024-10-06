@@ -36,8 +36,7 @@
   border-radius: 25px;
   position: relative;
   cursor: pointer;
-   
-  
+ 
 }
 
 
@@ -45,7 +44,9 @@
 .btnPro:hover {
   border: 1px solid white;
   transition: .3s ease-in-out;
-  background-color: #e42e6b;
+  background-color: rgb(250, 11, 214);
+  box-shadow: 0 5px 15px  rgba(255, 238, 255, 0.62);
+  
 }
 .banner {
  
@@ -117,11 +118,14 @@
   height: fit-content;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  
 }
 
 .card:hover {
-  transform: translateY(-10px);
+  transition:  0.3s ease-in-out;
+  transform: translateY(-3px);
+  cursor: pointer;
+  box-shadow: 0 5px 15px  rgba(255, 238, 255, 0.62);
 }
 
 .mainImg {

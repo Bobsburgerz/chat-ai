@@ -14,7 +14,7 @@ const Navbar = () => {
      
         <div 
         className={styles.logo}>      <Link href="/"> <span style={{fontWeight: '700' ,
-         fontSize:'22px', color: 'rgb(209, 11, 179)'}}> Cumcams 💜 </span></Link>
+        color: 'rgb(209, 11, 179)'}}> Cumcams 💜 </span></Link>
             {sub && <><Sub onClose={() => setSub(false)} /> </>}
         {login && <><Login onClose={() => setLogin(false)}/> </>}
         </div>
@@ -23,7 +23,7 @@ const Navbar = () => {
        
           <ul>
       
-           <li onClick={() => setSub(true)}className={styles.btnPro}>Subscribe</li>
+           <li onClick={() => setSub(true)} className={!user?.premium ? styles.btnPro : styles.premiumBtn}>{user?.premium ? <>Premium ★</>: <>Subscribe</>}</li>
             <li onClick={() => setLogin(true)}>Login</li>
        
  

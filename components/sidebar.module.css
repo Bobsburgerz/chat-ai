@@ -7,9 +7,9 @@
   }
  
   .options {
-    padding: 5px;
-    border: 1px solid white;
-    border-radius: 5px;
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 18px;
     margin: 8px;
     cursor: pointer;
     font-size: 21px;
@@ -35,9 +35,11 @@
 
    
   .options:hover {
-    color: rgb(209, 11, 179);
+    color: rgb(250, 11, 214);
     transition: .3s ease-in-out;
-    transform: scale(1.02,1.02);
+    
+ 
+    box-shadow: 0 5px 15px  rgba(255, 238, 255, 0.62);
   }
 
 

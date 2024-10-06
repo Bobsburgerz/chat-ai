@@ -6,9 +6,10 @@ import Sidebar from "../components/sidebar"
 import Navbar from "../components/navbar" 
 import products from '@/components/products';
 import { useSelector , useDispatch} from "react-redux";
-import { useNewConvoMutation, useUpdateUserMutation } from "../redux/services/appApi";
- 
+import { useNewConvoMutation, useUpdateUserMutation, useGetUserMutation ,useGetConvosMutation} from "../redux/services/appApi";
+import { useParams } from 'next/navigation';
 import { useRouter, useSearchParams } from 'next/navigation';
+ 
 
 import Head from 'next/head';
 import generatePicture from '@/helpers/picture';
@@ -27,7 +28,33 @@ const Products = () => {
   const [newConvo, { isError, isLoading, error }] = useNewConvoMutation();
   const searchParams = useSearchParams();  
   const [updateUser] = useUpdateUserMutation();
+  const [getUser] = useGetUserMutation();
   const router = useRouter();
+  
+  const [successMsg, setSuccessMsg] = useState(false)
+  const  success  = searchParams.get('success');
+  const user = useSelector((state: any) => state.user);
+  const [getConvos ] = useGetConvosMutation()
+  useEffect(() => {
+   
+    const getUpdate = () => {
+    if (successMsg) {
+      setTimeout(()=> { setSuccessMsg(false)}, 2000)
+    }}
+
+    getUpdate()
+  }, [successMsg, success]);
+  useEffect(() => {
+   
+    const getUpdate = async () => {
+    if (success && user) {
+      await getUser(user?.email)
+      setSuccessMsg(true)
+   
+    }}
+
+    getUpdate()
+  }, [success]);
   useEffect(() => {
     const id = searchParams.get('id');
     const googleId = searchParams.get('googleId');
@@ -42,16 +69,15 @@ const Products = () => {
  
 
 
-const [pic, setPic] = useState()
-  const user = useSelector((state: any) => state.user);
+ 
   
   useEffect(() => {
     
     const googleId = searchParams.get('googleId');
     const login = async () => {
     if (googleId && user) {
-      await newConvo({ provider: products[0] , email: user?.email});
-      setTimeout(() =>  router.push(`/character/1`), 1400 )
+    await getConvos({userId: user._id})
+      setTimeout(() =>  router.push(`/character/00`), 1400 )
    
     }}
 
@@ -69,14 +95,14 @@ const [pic, setPic] = useState()
     <div className={styles.main}>
     <Navbar/>
   
-     
+     {successMsg && <>SUCCESS!!!!!!!</>}
     <div className={styles.container}>
     <Sidebar/>
  <div className={styles.subcont}> 
  <div className={styles.banner}> 
  <img className={styles.bannerImg}  src="https://res.cloudinary.com/dgyn6qakv/image/upload/v1728069038/Frame_1_4_kohcmm.png"/>
  <div className={styles.flexCol}> 
- <h1>Flirt with your AI Girlfriend</h1>
+ <h1>Your Personal AI Girlfriend</h1>
  <button className={styles.btnPro}> Start Chatting </button></div>
    <div>.</div>
    </div>

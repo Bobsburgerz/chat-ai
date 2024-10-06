@@ -64,6 +64,14 @@ export const appApi = createApi({
         meta: { excludeAuthorization: true },  
       }),
     }),
+    getConvos: builder.mutation({
+      query: (product) => ({
+        url: "/chat/conversations/get",
+        method: "POST",
+        body: product,
+        meta: { excludeAuthorization: true },  
+      }),
+    }),
     signup: builder.mutation({
       query: (user) => ({
         url: "/auth/signup",
@@ -109,6 +117,15 @@ export const appApi = createApi({
       }),
     }),
 
+    getUser: builder.mutation({
+      query: (user) => ({
+        url: "/user/get",
+        method: "POST",
+        body: user,
+        meta: { excludeAuthorization: true }, 
+      }),
+    }),
+
 
   
 
@@ -118,8 +135,10 @@ export const appApi = createApi({
 });
 
 export const {
+  useGetUserMutation,
   useSignupMutation,
   useNewConvoMutation,
+  useGetConvosMutation,
   useUpdateConvoMutation,
   useDeleteConvoMutation,
   useLoginMutation,

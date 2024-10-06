@@ -10,11 +10,12 @@ const usersCollection = 'users';
 export async function POST(request) {
   const { email, password, googleId, id } = await request.json();
   let user;
- 
+ console.log("first hit", id)
    
   if (googleId) {
     user = await fetchGoogleUserFromDatabase(id, googleId);
     console.log("USER", user)
+
   } else {
     user = await fetchUserFromDatabase(email, password);
   }
@@ -90,12 +91,12 @@ async function fetchUserFromDatabase(email, password) {
 
 async function fetchGoogleUserFromDatabase(id, googleId) {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
+console.log("FETCH", id, googleId)
   try {
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(usersCollection);
-    console.log(id, googleId)
+
     const user = await collection.findOne({ _id: new ObjectId(id), googleId });
  
     return user || null; // Return user if found, else return null

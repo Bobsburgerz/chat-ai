@@ -2,13 +2,13 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe('sk_test_51LGwewJ0oWXoHVY4pMmWjhneKKna7PB95rrVnDHeDiqxC1VAjHxx7oGFmmzAHvxOsrHr8C7rxWKDh5fET0gIpyVI002KxafOxj');
+const stripe = new Stripe(process.env.STRIPE_SECRET ? process.env.STRIPE_SECRET :'sk_test_51LGwewJ0oWXoHVY4pMmWjhneKKna7PB95rrVnDHeDiqxC1VAjHxx7oGFmmzAHvxOsrHr8C7rxWKDh5fET0gIpyVI002KxafOxj');
 
 export async function POST(request) {
   const { priceId, userId } = await request.json();
-console.log("got", userId)
+ 
   try {
-    // Create a checkout session with metadata
+  
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -18,13 +18,13 @@ console.log("got", userId)
         },
       ],
       mode: 'subscription',
-      success_url: 'https://seedley.net/',
-      cancel_url: 'https://twitter.com/',
-      metadata: { userId, test: '5' }, // Add metadata here
+      success_url: 'https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev?success=true',
+      cancel_url: 'https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev/',
+     
       subscription_data: {
         metadata: {
-          userId,  // You can add additional metadata related to the subscription
-          credits: '80', // Custom metadata
+          userId,  
+          credits: '70',
         },
     
 }

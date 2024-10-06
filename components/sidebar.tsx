@@ -1,16 +1,17 @@
 'use client'
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import styles from './sidebar.module.css'; // Import the CSS module
+import styles from './sidebar.module.css'; //   Import the CSS module
 import { useLogoutMutation } from '@/redux/services/appApi'
 import { useSelector , useDispatch} from "react-redux";
 import Login from "./login"
 import Signup from "./signup"
 import { useState, useEffect } from 'react';
-
+import { resetProducts } from "../redux/slice/convoSlice";
 const sideOptions = ["Home",  "Messages",  "Billing"]
 
 const Sidebar =  () => {
+  const dispatch = useDispatch();
   const pathname = usePathname();
   const [logout, { isError, isLoading, error }] = useLogoutMutation();
   const user = useSelector((state: any) => state.user);
@@ -18,7 +19,24 @@ const Sidebar =  () => {
  
   const [signup, setSignup] = useState(false)
 
+  const handleManageSubscription = async (customerId: string) => {
+    
+    const response = await fetch('/api/payments/update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(customerId ), 
+    });
 
+    const { url } = await response.json();
+    window.location.href = url;  
+  };
+const setLogout = async () => {
+  await logout({email: "", id: ""})
+  dispatch(resetProducts()); 
+  router.push(`/`)
+}
  
     return ( <> 
         <aside className={styles.sidebar}>
@@ -32,10 +50,14 @@ const Sidebar =  () => {
  
      const isActive = pathname.includes("/character") && opt == "Messages";
   
-const navigate = (name: string) => {
+const navigate = async (name: string) => {
+  if (name == "Billing" && user?.customer){
+    console.log("hit")
+   await  handleManageSubscription(user.customer)
+  }
   if (name == "Messages"  && !user) {
     setSignup(true)
-  } else {
+  } else if (name !== "Billing") {
     router.push(`${nav}`)
   }
   
@@ -48,7 +70,7 @@ const navigate = (name: string) => {
 })}
         </div>
 
-        {user ? <>     <div onClick={() => logout({email: "", id: ""})}
+        {user ? <>     <div onClick={() => setLogout() }
          style={{position: 'absolute', bottom:'30px', width: '150px' }}className={styles.options}>Logout</div></> : <> 
          
          <div onClick={() => setSignup(true)}
