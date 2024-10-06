@@ -6,7 +6,7 @@ const stripe = new Stripe('sk_test_51LGwewJ0oWXoHVY4pMmWjhneKKna7PB95rrVnDHeDiqx
 
 export async function POST(request) {
   const { priceId, userId } = await request.json();
-
+console.log("got", userId)
   try {
     // Create a checkout session with metadata
     const session = await stripe.checkout.sessions.create({
@@ -20,9 +20,17 @@ export async function POST(request) {
       mode: 'subscription',
       success_url: 'https://seedley.net/',
       cancel_url: 'https://twitter.com/',
-      metadata: { userId },
-    });
+      metadata: { userId, test: '5' }, // Add metadata here
+      subscription_data: {
+        metadata: {
+          userId,  // You can add additional metadata related to the subscription
+          credits: '80', // Custom metadata
+        },
     
+}
+
+})
+
     return NextResponse.json({ id: session.id });
   } catch (error) {
     console.error('Error creating checkout session:', error);

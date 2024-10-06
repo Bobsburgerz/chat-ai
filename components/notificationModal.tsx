@@ -1,7 +1,8 @@
 import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';  
 import styles from './notification.module.css';
-
+import { userAgent } from 'next/server';
+import { useSelector} from "react-redux";
 type SubProps = {
   onClose: () => void;
 };
@@ -10,7 +11,7 @@ const stripePromise = loadStripe('pk_test_51LGwewJ0oWXoHVY4KaHYgICxXbe41zPhsxY9j
 
 const Sub = ({ onClose }: SubProps) => {
 
-  
+  const user = useSelector((state: any) => state.user);
   const handleSelectPlan = async (priceId: string) => {
     const stripe = await stripePromise;
 
@@ -20,7 +21,7 @@ const Sub = ({ onClose }: SubProps) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ priceId }), 
+      body: JSON.stringify({ priceId, userId: user?._id }), 
     });
 
     const session = await response.json();
@@ -40,6 +41,7 @@ const Sub = ({ onClose }: SubProps) => {
       <div className={styles.modal}>
         <button className={styles.closeButton} onClick={onClose}>X</button>
         <div className={styles.imageContainer}>
+   
           <img className={styles.image} src="https://res.cloudinary.com/dgyn6qakv/image/upload/v1728135592/10CWW6SXMX33PD6GDVTYVXF730-removebg-preview_y5jvmd.png" alt="promo" />
         </div>
         <div className={styles.text}>
