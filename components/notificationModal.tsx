@@ -55,7 +55,7 @@ const Sub = ({ onClose }: SubProps) => {
               <p className={styles.oldPrice}>Was $19.99/month</p>
               <button 
                 className={styles.subscribeButton} 
-                onClick={() => handleSelectPlan('price_1Q6pXwJ0oWXoHVY4qIPBWgre')}>
+                onClick={() => handleSelectPlan('price_1Q6pVJJ0oWXoHVY43ybxspDJ')}>
                 Select Plan
               </button>
             </div>
@@ -67,7 +67,7 @@ const Sub = ({ onClose }: SubProps) => {
               <p className={styles.oldPrice}>Was $19.99/month</p>
               <button 
                 className={styles.subscribeButton} 
-                onClick={() => handleSelectPlan('price_1Q6pXGJ0oWXoHVY4wfCSfUw3')}>
+                onClick={() => handleSelectPlan('price_1Q6pUCJ0oWXoHVY4ItiaRSkz')}>
                 Select Plan
               </button>
             </div>

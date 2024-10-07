@@ -5,7 +5,7 @@ import connectToDatabase from '../../../lib/mongo';
 
 const clientId = process.env.GOOGLE_CLIENT_ID || '';
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
-const redirectUri = 'https://cumcams.xyz/api/auth/google';
+const redirectUri = 'https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io/api/auth/google';
 
 const oAuth2Client = new OAuth2Client(clientId, clientSecret, redirectUri);
 

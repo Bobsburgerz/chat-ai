@@ -18,8 +18,8 @@ export async function POST(request) {
         },
       ],
       mode: 'subscription',
-      success_url: 'https://cumcams.xyz?success=true',
-      cancel_url: 'https://cumcams.xyz/',
+      success_url: 'https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io?success=true',
+      cancel_url: 'https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io/',
      
       subscription_data: {
         metadata: {
