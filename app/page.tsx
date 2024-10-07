@@ -15,15 +15,7 @@ import Head from 'next/head';
 import generatePicture from '@/helpers/picture';
 import SuccessMessage from '@/components/successModal';
 
-<Head>
-  <title>Build a Connection with Your AI Companion | Flirt, Confide, and Chat</title>
-  <meta name="description" content="Discover your AI companion. Build a deep relationship, flirt, chat, and confide in your personal AI companion. Start your personalized journey now! Cute , Sexy, Fun, AI chat. " />
-  <meta name="keywords" content="AI chat companion, relationship with AI, flirt with AI, confide in AI, personalized AI chat" />
-  <meta property="og:title" content="Build a Connection with Your AI Companion" />
-  <meta property="og:description" content="Experience a new way to interact with AI. Flirt, build a relationship, and confide in your own AI companion." />
-  <meta name="robots" content="index, follow" />
-</Head>
-
+ 
 
 const Products = () => {
   const [newConvo, { isError, isLoading, error }] = useNewConvoMutation();
@@ -93,6 +85,18 @@ const Products = () => {
  
  }
   return (
+
+    <>
+    <Head>
+<link rel="icon" href="/favicon.ico" />
+  <title>Build a Connection with Your AI Companion | Flirt, Confide, and Chat</title>
+  <meta name="description" content="Discover your AI companion. Build a deep relationship, flirt, chat, and confide in your personal AI companion. Start your personalized journey now! Cute , Sexy, Fun, AI chat. " />
+  <meta name="keywords" content="AI chat companion, relationship with AI, flirt with AI, confide in AI, personalized AI chat" />
+  <meta property="og:title" content="Build a Connection with Your AI Companion" />
+  <meta property="og:description" content="Experience a new way to interact with AI. Flirt, build a relationship, and confide in your own AI companion." />
+  <meta name="robots" content="index, follow" />
+</Head>
+ 
     <div className={styles.main}>
     <Navbar/>
   
@@ -127,6 +131,7 @@ const Products = () => {
       </div>
        
     </div>
+    </>
   );
 };
 

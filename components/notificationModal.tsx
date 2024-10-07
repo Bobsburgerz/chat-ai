@@ -14,8 +14,6 @@ const Sub = ({ onClose }: SubProps) => {
   const user = useSelector((state: any) => state.user);
   const handleSelectPlan = async (priceId: string) => {
     const stripe = await stripePromise;
-
- 
     const response = await fetch('/api/payments/checkout', {
       method: 'POST',
       headers: {
