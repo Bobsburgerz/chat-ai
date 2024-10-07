@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@api/prodia": "file:.api/apis/prodia",
+    "@fontsource/poetsen-one": "^5.1.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
