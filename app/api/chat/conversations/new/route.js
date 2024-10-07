@@ -1,18 +1,7 @@
-import mongoose from 'mongoose';
+ 
 import connectToDatabase from '../../../../lib/mongo.js';
-
-const convoSchema = new mongoose.Schema({
-  model: { type: String, required: true },
-  user: { type: mongoose.Schema.Types.ObjectId, required: true }, 
-  messages: [
-    {
-      content: { type: String },
-      role: { type: String },
-    },
-  ],
-});
-
-const Convo = mongoose.models.Convo || mongoose.model('Convo', convoSchema);
+import { ObjectId } from 'mongodb';
+ 
 
 export async function POST(request) {
   try {

@@ -20,7 +20,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io/api`,
+  baseUrl: `https://cumcams.xyz/api`,
   credentials: 'include',
   prepareHeaders: (headers, {getState}) => {
  let token = 7

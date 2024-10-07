@@ -10,7 +10,7 @@ const usersCollection = 'users';
  
 const clientId = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-const redirectUri = 'https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io/api/auth/google';
+const redirectUri = 'https://cumcams.xyz/api/auth/google';
 
 const oAuth2Client = new OAuth2Client(clientId, clientSecret, redirectUri);
 
@@ -85,7 +85,7 @@ console.log(result)
     return new Response(null, {
       status: 302, 
       headers: {
-        'Location': `https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io/?id=${existingUser._id}&googleId=${userInfo.data.id}`, 
+        'Location': `https://cumcams.xyz/?id=${existingUser._id}&googleId=${userInfo.data.id}`, 
         'Set-Cookie': cookie,
       },
     });

@@ -30,7 +30,7 @@ const GeneratePicture = async (
     
 
     const response = await axios.post(
-      'https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io/api/chat/photo',
+      'https://cumcams.xyz/api/chat/photo',
       { "prompt": opt, "source": img },
       { headers: { 'Content-Type': 'application/json' } }
     );

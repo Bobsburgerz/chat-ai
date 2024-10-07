@@ -43,14 +43,12 @@ export async function POST(request) {
 
  
  
-
-    const updatedConvo = await collection.updateOne(
+    const updatedConvo = await collection.findOneAndUpdate(
       { _id: new ObjectId(_id) },
       { $set: { messages: updatedMessages }},
-      { returnDocument: 'after' } 
+      { returnDocument: 'after' }  
     );
-
-    const returnConvo = await collection.find(  { _id: new ObjectId(_id) })
+    
     
     if (!updatedConvo) {
       return new Response(JSON.stringify({ error: 'Conversation not found' }), {
@@ -59,7 +57,7 @@ export async function POST(request) {
       });
     }
 
-    return NextResponse.json({ message: responseContent, convo: returnConvo });
+    return NextResponse.json({ message: responseContent, convo: updatedConvo });
   } catch (error) {
     console.error(error.message);
     return new Response(JSON.stringify({ error: 'Something went wrong' }), {

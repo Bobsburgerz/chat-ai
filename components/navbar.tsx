@@ -23,7 +23,14 @@ const Navbar = () => {
        
           <ul>
       
-           <li onClick={() => setSub(true)} className={!user?.premium ? styles.btnPro : styles.premiumBtn}>{user?.premium ? <>Premium ★</>: <>Subscribe</>}</li>
+           <li onClick={() => {
+  if (!user?.premium) {
+    setSub(true);
+  } else {
+ 
+  return;
+  }
+}} className={!user?.premium ? styles.btnPro : styles.premiumBtn}>{user?.premium ? <>Premium ★</>: <>Subscribe</>}</li>
             <li onClick={() => setLogin(true)}>Login</li>
        
  

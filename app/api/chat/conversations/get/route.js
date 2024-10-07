@@ -1,5 +1,5 @@
 import connectToDatabase from '../../../../lib/mongo';
-import { MongoClient, ObjectId } from 'mongodb';
+import {  ObjectId } from 'mongodb';
 
 export async function POST(request) {
   try {
@@ -13,7 +13,7 @@ export async function POST(request) {
       });
     }
     const id = new ObjectId(userId)
-    const uri = process.env.MONGO_URI;
+   
     const convoCollection = 'convos';
     
   
