@@ -17,7 +17,7 @@ async function connectToDatabase() {
   await client.connect();
   
   // Select your database
-  const db = client.db('newBb'); // replace 'newBb' with your actual database name
+  const db = client.db('newDB'); // replace with your actual database name
 
   // Cache the client and db for future use
   cachedClient = client;
