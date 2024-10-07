@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
-import { MongoClient } from 'mongodb';
+ import connectToDatabase from '../../../lib/mongo';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis'; 
 
 const uri = process.env.MONGO_URI;
-const dbName = 'test';
+const dbName = 'newDB';
 const usersCollection = 'users';
  
 const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -45,10 +45,9 @@ export async function GET(request) {
       });
     }
  
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection(usersCollection);
+ 
+    const { db } = await connectToDatabase(); 
+     const collection = db.collection(usersCollection);
 
   
     let existingUser = await collection.findOne({ email });

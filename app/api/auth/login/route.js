@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
-import { MongoClient } from 'mongodb';
+import connectToDatabase from '../../../lib/mongo';
 import bcrypt from 'bcrypt';  
 import { ObjectId } from 'mongodb';
 const uri = process.env.MONGO_URI; 
-const dbName = 'test'; 
+const dbName = 'newDB'; 
 const usersCollection = 'users';  
 
 export async function POST(request) {
@@ -64,8 +64,8 @@ async function fetchUserFromDatabase(email, password) {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
   try {
-    await client.connect();
-    const db = client.db(dbName);
+  
+    const { db } = await connectToDatabase(); 
     const collection = db.collection(usersCollection);
 
     // Find the user by email
@@ -93,8 +93,7 @@ async function fetchGoogleUserFromDatabase(id, googleId) {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 console.log("FETCH", id, googleId)
   try {
-    await client.connect();
-    const db = client.db(dbName);
+    const { db } = await connectToDatabase(); 
     const collection = db.collection(usersCollection);
 
     const user = await collection.findOne({ _id: new ObjectId(id), googleId });

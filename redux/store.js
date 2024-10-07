@@ -10,10 +10,12 @@ import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
+import loadingSlice from "./slice/loadingSlice";
  
  
  
 const reducer = combineReducers({
+    loading: loadingSlice,
     user: userSlice,
     conversations: convoSlice,
     auth: authReducer,

@@ -5,12 +5,14 @@ import { useParams } from 'next/navigation';
 import Sidebar from "../../../components/sidebar"
 import Navbar from "../../../components/navbar"
 import styles from './styles.module.css';
+import PayModal from "../../../components/notificationModal"
+import { usePathname, useRouter } from 'next/navigation';
 import BeatLoader from 'react-spinners/BeatLoader';
 import products from '@/components/products';
 import Signup from '@/components/signup';
 import GeneratePicture from '@/helpers/picture';
-import { useDeleteConvoMutation, useUpdateConvoMutation ,useGetConvosMutation,  usePutUserMutation} from '../../../redux/services/appApi'
-import { useSelector} from "react-redux";
+import { useDeleteConvoMutation, useUpdateConvoMutation,useGetConvosMutation,usePutUserMutation,useNewConvoMutation} from '../../../redux/services/appApi'
+import { useSelector } from "react-redux";
  import ImageModal from '@/components/imageModal';
  
 interface Message {
@@ -37,6 +39,7 @@ interface Conversation {
  
 const CharacterPage = () => {
  const { id } = useParams();
+ const [convoLoading, setConvoLoading] = useState(false)
  const characterId = Array.isArray(id) ? id[0] : id;
  const def =  products.find((char) => JSON.stringify(char?.id) == id)
  const [character, setCharacter] = useState(def)
@@ -46,12 +49,14 @@ const CharacterPage = () => {
  const [picLoading, setPicLoading] = useState(false)
  const con = useSelector((state: any) => state.conversations);
  const convos = con.filter((c:any) => c.user == user?._id)
- const [updateConvo ] = useUpdateConvoMutation()
- const [getConvos ] = useGetConvosMutation()
+ const [updateConvo] = useUpdateConvoMutation()
+ const [getConvos] = useGetConvosMutation()
+ const router = useRouter();
+ 
  const [deleteConvo, { isError, isLoading, error }] = useDeleteConvoMutation();
  const [msgLoading, setMsgLoading] = useState(false)
  const [putUser , {}] = usePutUserMutation();
-  
+ const [newConvo, {}] = useNewConvoMutation();
  const [errorState, setErrorState] = useState(false);  // Error state
  const [errorMessage, setErrorMessage] = useState(''); // Error message state
  const setConversation = (convo: Conversation) => {
@@ -78,12 +83,14 @@ const char = products.find((prod) => convo?.model == prod.id)
 const current = convos?.find((convo: any) => convo.model == id)
 const deleteMessage = async (provider: any) => {
  
-  await deleteConvo(provider);
+  const res:any = await deleteConvo(provider);
  
-const newConversation = convos?.find((convo: Conversation) => convo !== provider);
-  if (newConversation) {
-    setConversation(newConversation);
-  }};
+ if (res.data?.length > 0) {
+    setConversation(res?.data[0]); 
+    } else {
+      router.push('/')
+    }
+  }
 
  
  
@@ -157,9 +164,13 @@ The roleplay starts here: ${def?.prompt}`
 
 
   const [isToggled, setIsToggled] = useState(false);
- 
+  const [openPayModal, setOpenPayModal] = useState(false);
   const togglePosition = () => {
+    if (user?.premium) {
     setIsToggled(!isToggled);
+    } else {
+setOpenPayModal(true)
+    }
   };
 
 
@@ -192,6 +203,7 @@ The roleplay starts here: ${def?.prompt}`
 const [signup, setSignup] = useState(false)
 const [selectedModel , setSelectedModel] = useState<Character | null>()
  
+
 const theModel = products.find((prod) => prod.id == character?.id)
 useEffect(() => {
 if (!user) {
@@ -303,7 +315,7 @@ setSignup(true)
   }
   }, [messages, handleSend, convos]);
  */}
-  const filteredConvos = convos 
+ 
   const picOptions = [
     {
       name: "Boobs", 
@@ -329,16 +341,33 @@ setSignup(true)
   useEffect(() => { 
     const getConversations = async () => {
     if(user) {
-    await getConvos({userId:user._id})
-  
+    setConvoLoading(true)
+   const res:any = await getConvos({userId:user._id})
+   
+   if (res?.data?.length > 0) {
+   setConversation(res?.data[0]) 
+  setConvoLoading(false)
+  }
+   else   {
+    try {
+    const res:any = await newConvo({ provider: products[0], email: user?.email });
+    console.log(res?.data)
+    setConversation(res?.data[0])
+    setConvoLoading(false)
+    } catch(e) {
+      console.log("error")
+    }
+   }
     }}
     getConversations()
   },[ ])
 
+ 
+   
 
   useEffect(() => { 
     const getConversations = async () => {
-    if(!selectedConvo) {
+      if(!selectedConvo) {
       setConversation(convos[0])
 
     }}
@@ -364,6 +393,10 @@ setSignup(true)
       <Navbar />
       <div className={styles.container}>
         <Sidebar />
+
+       
+{openPayModal ? <><PayModal onClose={() => setOpenPayModal(false)}/></> : <></>}
+       
         {imgModal.length > 3 && <> <ImageModal image={imgModal} onClose={() => setImgModal("")}/></>}
                 {signup && <> <Signup onClose={() => setSignup(false)} character={characterId }/></>}
         <div className={styles.characterContainer}>
@@ -371,9 +404,7 @@ setSignup(true)
             <h2 style={{margin:'10px'}}>Chats</h2>
 
 
-
-   
- {convos.length}
+ 
 
    {convos.map((convo: any) => {
   const model = products.filter((prod) => prod.id !== selectedModel?.id).find((prod) => prod.id == convo.model)
@@ -430,11 +461,14 @@ setSignup(true)
 
           <div id="cont-2" className={`${styles.flexItemCent} ${styles.chatContainer}`}>
      
-            <div className={styles.block}> <div><img className={styles.proPic_sm}src={selectedModel?.image}/></div>  {selectedModel?.name}        {user?.credits || "None"}    </div>
+            <div className={styles.block}> <div><img className={styles.proPic_sm}src={selectedModel?.image}/></div>  {selectedModel?.name}          </div>
          
            <div style={{height: '100vh', width: '100%'}}> 
          
             <div ref={chatBoxRef} className={styles.chatBox}>
+              {1 >= messages.length ? <> <p   style={{justifyContent: 'start', display: 'block' }} 
+                className={ styles.aiMessage}>{selectedModel?.firstMessage}</p></>: <></> } 
+              
               {messages?.filter((msg) => msg.role !== 'system').map((msg, index) => (
                 <> 
                   {msg.content.includes("[*PHOTO*]") ? (
@@ -478,7 +512,8 @@ setSignup(true)
           transform: isToggled ? "translateY(0.1px)" : "translateY(0)",
           transition: "transform 0.3s ease",  
         }} className={styles.pics}>
-           <div  className={styles.picHeader}><h4 style={{marginRight: !isToggled ? '0px': '5px', marginBottom: '-1px'}}>Get Pictures</h4>       
+        
+           <div  className={styles.picHeader}><h4 style={{marginRight: !isToggled ? '0px': '5px', marginBottom: '-1px'}}>Get Pictures <span style={{fontSize: '12px', fontWeight:'400'}}>  {user.credits ? <> {user?.credits} / 70</> : <></>}</span> </h4>       
            
            <div style={{ 
           display: isToggled ? "block" : "none",

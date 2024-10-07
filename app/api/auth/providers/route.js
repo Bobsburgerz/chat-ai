@@ -1,7 +1,7 @@
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
-import { MongoClient } from 'mongodb';
+import connectToDatabase from '../../../lib/mongo';
 
 const clientId = process.env.GOOGLE_CLIENT_ID || '';
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
@@ -10,7 +10,7 @@ const redirectUri = 'https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev
 const oAuth2Client = new OAuth2Client(clientId, clientSecret, redirectUri);
 
 const uri = process.env.MONGO_URI || '';
-const dbName = 'test';
+const dbName = 'newDB';
 const usersCollection = 'users';
 
 export async function GET(request) {
@@ -45,10 +45,8 @@ export async function POST(request) {
     const payload = ticket?.getPayload();
     const email = payload?.email;
 
-    // Connect to MongoDB
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
-    const db = client.db(dbName);
+ 
+    const { db } = await connectToDatabase(); 
     const collection = db.collection(usersCollection);
 
     // Check if user already exists

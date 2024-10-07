@@ -1,4 +1,4 @@
-import dbConnect from '../../../../lib/mongo.js';
+import connectToDatabase from '../../../lib/mongo';
 import mongoose from 'mongoose';
 
 const convoSchema = new mongoose.Schema({
@@ -18,7 +18,7 @@ export async function PUT(request) {
     if (mongoose.connection.readyState !== 1) {
       await dbConnect();
     }
-    await dbConnect();
+    connectToDatabase
     const body = await request.json();
     const  provider  = body;
 
@@ -33,13 +33,13 @@ export async function PUT(request) {
 
     
     const updatedConvo = await Convo.findByIdAndUpdate(
-      { _id: provider._id }, // Filter criteria
+      { _id: provider._id },  
       provider,
-      { new: true } // Return the updated document
+      { new: true }  
     );
 
     if (updatedConvo) {
-      const remainingConvos = await Convo.find();  
+      const remainingConvos = await Convo.find({user: updatedConvo?.user});  
       return new Response(JSON.stringify(remainingConvos), { status: 200 });
     } else {
       return new Response(JSON.stringify({ error: 'Conversation not found' }), {

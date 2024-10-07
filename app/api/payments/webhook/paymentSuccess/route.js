@@ -1,12 +1,12 @@
 // api/stripe-webhook.js
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
- 
-import { MongoClient, ObjectId } from 'mongodb';
+import connectToDatabase from '../../../../lib/mongo';
+import { ObjectId } from 'mongodb';
  
 
 const uri = process.env.MONGO_URI;
-const dbName = 'test';
+const dbName = 'newDB';
 const collection = 'users';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET ? process.env.STRIPE_SECRET :'sk_test_51LGwewJ0oWXoHVY4pMmWjhneKKna7PB95rrVnDHeDiqxC1VAjHxx7oGFmmzAHvxOsrHr8C7rxWKDh5fET0gIpyVI002KxafOxj');
@@ -19,9 +19,9 @@ async function updateUserCredits(userId, credits, customerId) {
   const updates = { credits, customer: customerId , premium: true};
  
   try {
-    await client.connect();
+    const { db } = await connectToDatabase(); 
    let result = {}
-    const db = client.db(dbName);
+  
     const usersCollection = db.collection(collection);
     if (userId) {
       console.log(userId, "RAN")

@@ -1,4 +1,4 @@
-import dbConnect from '../../../../lib/mongo.js';
+import connectToDatabase from '../../../../lib/mongo';
 import mongoose from 'mongoose';
 
 const convoSchema = new mongoose.Schema({
@@ -16,7 +16,7 @@ const Convo = mongoose.models.Convo || mongoose.model('Convo', convoSchema);
 
 export async function DELETE(request) {
   try { if (mongoose.connection.readyState !== 1) {
-      await dbConnect();
+      await connectToDatabase()
     }
  
 
@@ -38,7 +38,7 @@ export async function DELETE(request) {
     const deletedConvo = await Convo.findOneAndDelete({_id: provider._id });
    
     if (deletedConvo) {
-      const remainingConvos = await Convo.find();  
+      const remainingConvos = await Convo.find({user: deletedConvo.user});  
       return new Response(JSON.stringify(remainingConvos), { status: 200 });
     } else {
       return new Response(JSON.stringify({ error: 'Conversation not found' }), {

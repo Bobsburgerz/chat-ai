@@ -103,7 +103,7 @@ const Products = () => {
  <img className={styles.bannerImg}  src="https://res.cloudinary.com/dgyn6qakv/image/upload/v1728069038/Frame_1_4_kohcmm.png"/>
  <div className={styles.flexCol}> 
  <h1>Your Personal AI Girlfriend</h1>
- <button className={styles.btnPro}> Start Chatting </button></div>
+ <button onClick={() => makeConvo(products[4])} className={styles.btnPro}> Start Chatting </button></div>
    <div>.</div>
    </div>
     <main className={styles.productGrid}>

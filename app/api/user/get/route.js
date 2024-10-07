@@ -1,7 +1,7 @@
-import { MongoClient } from 'mongodb';
+ import connectToDatabase from '../../../../lib/mongo.js';
 
 const uri = process.env.MONGO_URI;
-const dbName = 'test';
+const dbName = 'newDB';
 const usersCollection = 'users';
 
 export async function POST(request) {

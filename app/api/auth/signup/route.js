@@ -1,22 +1,19 @@
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
-import { MongoClient } from 'mongodb';
+import connectToDatabase from '../../../lib/mongo';
 import bcrypt from 'bcrypt';  // For password hashing
 
 const uri = process.env.MONGO_URI;
-const dbName = 'test';
+const dbName = 'newDB';
 const usersCollection = 'users';
 
 export async function POST(request) {
   // Parse the JSON body from the request
   const { email, password } = await request.json();
 
-  // Connect to MongoDB
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-  
+ 
   try {
-    await client.connect();
-    const db = client.db(dbName);
+    const { db } = await connectToDatabase(); 
     const collection = db.collection(usersCollection);
 
     // Check if the user already exists

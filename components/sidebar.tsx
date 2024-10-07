@@ -4,14 +4,17 @@ import { usePathname, useRouter } from 'next/navigation';
 import styles from './sidebar.module.css'; //   Import the CSS module
 import { useLogoutMutation } from '@/redux/services/appApi'
 import { useSelector , useDispatch} from "react-redux";
-import Login from "./login"
 import Signup from "./signup"
 import { useState, useEffect } from 'react';
 import { resetProducts } from "../redux/slice/convoSlice";
+import { setLoading } from "@/redux/slice/loadingSlice";  
 const sideOptions = ["Home",  "Messages",  "Billing"]
 
 const Sidebar =  () => {
-  const dispatch = useDispatch();
+   
+  const loading = useSelector((state:any) => state.loading)
+const dispatch = useDispatch()
+ 
   const pathname = usePathname();
   const [logout, { isError, isLoading, error }] = useLogoutMutation();
   const user = useSelector((state: any) => state.user);
@@ -51,6 +54,7 @@ const setLogout = async () => {
      const isActive = pathname.includes("/character") && opt == "Messages";
   
 const navigate = async (name: string) => {
+  dispatch(setLoading(true))
   if (name == "Billing" && user?.customer){
     console.log("hit")
    await  handleManageSubscription(user.customer)

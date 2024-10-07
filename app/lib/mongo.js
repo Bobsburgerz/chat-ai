@@ -1,13 +1,23 @@
+// lib/mongo.js
+import { MongoClient } from 'mongodb';
 
-import mongoose from "mongoose";
+const uri = process.env.MONGO_URI;
+let cachedClient;
+let cachedDb;
 
-const connectMongoDB = async () => {
-  try {
-    await mongoose.connect(`${process.env.MONGO_URI}`);
-    console.log("Connected to MongoDB.");
-  } catch (error) {
-    console.log(error);
+async function connectToDatabase() {
+  if (cachedClient && cachedClient.isConnected()) {
+    return { client: cachedClient, db: cachedDb };
   }
-};
 
-export default connectMongoDB; 
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  await client.connect();
+  const db = client.db('newBb'); 
+
+  cachedClient = client;
+  cachedDb = db;
+
+  return { client, db };
+}
+
+export default connectToDatabase;
