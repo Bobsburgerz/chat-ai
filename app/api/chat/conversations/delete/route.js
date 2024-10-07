@@ -1,31 +1,13 @@
 import connectToDatabase from '../../../../lib/mongo';
-import mongoose from 'mongoose';
-
-const convoSchema = new mongoose.Schema({
-  
-  model: { type: String, required: true },
-  messages: [
-    {
-      content: { type: String },
-      role: { type: String },
-    },
-  ],
-});
-
-const Convo = mongoose.models.Convo || mongoose.model('Convo', convoSchema);
+import { ObjectId } from 'mongodb';
 
 export async function DELETE(request) {
-  try { if (mongoose.connection.readyState !== 1) {
-      await connectToDatabase()
-    }
- 
-
- 
+  try {
+    const { db } = await connectToDatabase(); // Connect to MongoDB
     const body = await request.json();
-    console.log( body)
-    const  provider  = body.provider;
+    const provider = body.provider;
 
-    console.log(provider, provider._id); // Debugging log to check if provider is defined
+    console.log( provider?._id); // Debugging log to check if provider is defined
 
     if (!provider || !provider._id) {
       return new Response(JSON.stringify({ error: 'Invalid provider data' }), {
@@ -34,11 +16,20 @@ export async function DELETE(request) {
       });
     }
 
-    // Find and delete the conversation by model ID
-    const deletedConvo = await Convo.findOneAndDelete({_id: provider._id });
-   
+    // Collection name
+    const convoCollection = 'convos';
+
+    // Find and delete the conversation by ObjectId
+    const deletedConvo = await db.collection(convoCollection).findOneAndDelete({
+      _id: new ObjectId(provider._id)
+    });
+console.log(deletedConvo.user)
     if (deletedConvo) {
-      const remainingConvos = await Convo.find({user: deletedConvo.user});  
+      // Find remaining conversations by user after deletion
+      const remainingConvos = await db.collection(convoCollection).find({
+        user: new ObjectId(deletedConvo.user)
+      }).toArray()
+    console.log(remainingConvos)
       return new Response(JSON.stringify(remainingConvos), { status: 200 });
     } else {
       return new Response(JSON.stringify({ error: 'Conversation not found' }), {

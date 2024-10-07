@@ -15,7 +15,7 @@ export async function POST(req) {
   try {
     const session = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url: `https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev`, // Replace with your return URL
+      return_url: `https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io`, // Replace with your return URL
     });
 
     return NextResponse.json({ url: session.url });

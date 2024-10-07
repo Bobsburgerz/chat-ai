@@ -18,8 +18,8 @@ export async function POST(request) {
         },
       ],
       mode: 'subscription',
-      success_url: 'https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev?success=true',
-      cancel_url: 'https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev/',
+      success_url: 'https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io?success=true',
+      cancel_url: 'https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io/',
      
       subscription_data: {
         metadata: {

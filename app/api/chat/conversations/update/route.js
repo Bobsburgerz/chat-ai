@@ -1,52 +1,37 @@
-import connectToDatabase from '../../../lib/mongo';
-import mongoose from 'mongoose';
-
-const convoSchema = new mongoose.Schema({
-  model: { type: String, required: true },
-  messages: [
-    {
-      content: { type: String },
-      role: { type: String },
-    },
-  ],
-});
-
-const Convo = mongoose.models.Convo || mongoose.model('Convo', convoSchema);
+import connectToDatabase from '../../../../lib/mongo';
 
 export async function PUT(request) {
   try {
-    if (mongoose.connection.readyState !== 1) {
-      await dbConnect();
-    }
-    connectToDatabase
+    const { db } = await connectToDatabase(); // Ensure you connect to the database
     const body = await request.json();
-    const  provider  = body;
+    const provider = body;
 
-  
-
-    if (!provider) {
-      return new Response(JSON.stringify({ error: 'Invalid ' }), {
+    if (!provider || !provider._id) {
+      return new Response(JSON.stringify({ error: 'Invalid request' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    
-    const updatedConvo = await Convo.findByIdAndUpdate(
-      { _id: provider._id },  
-      provider,
-      { new: true }  
+    // Update the conversation in the collection
+    const convoCollection = 'convos'; // Make sure this is your collection name
+    const updatedConvo = await db.collection(convoCollection).findOneAndUpdate(
+      { _id: new ObjectId(provider._id) }, // Ensure the ID is converted to ObjectId
+      { $set: provider },
+      { returnDocument: 'after' } // This option is used to get the updated document
     );
 
-    if (updatedConvo) {
-      const remainingConvos = await Convo.find({user: updatedConvo?.user});  
-      return new Response(JSON.stringify(remainingConvos), { status: 200 });
-    } else {
+    if (!updatedConvo.value) {
       return new Response(JSON.stringify({ error: 'Conversation not found' }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' },
       });
     }
+
+    // Find remaining conversations for the same user
+    const remainingConvos = await db.collection(convoCollection).find({ user: updatedConvo.value.user }).toArray();
+
+    return new Response(JSON.stringify(remainingConvos), { status: 200 });
   } catch (error) {
     console.error(error.message);
     return new Response(JSON.stringify({ error: 'Something went wrong' }), {

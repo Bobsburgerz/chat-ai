@@ -1,4 +1,4 @@
- import connectToDatabase from '../../../../lib/mongo.js';
+ import connectToDatabase from '../../../lib/mongo';
 
 const uri = process.env.MONGO_URI;
 const dbName = 'newDB';
@@ -7,7 +7,7 @@ const usersCollection = 'users';
 export async function POST(request) {
   try {
     const updates = await request.json();
- console.log(updates, updates?.email, updates?.credits)
+ 
 
     if (!updates) {
       return new Response(JSON.stringify({ error: 'Email is required!' }), {
@@ -16,9 +16,7 @@ export async function POST(request) {
       });
     }
 
-    
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    
+     
     const { db } = await connectToDatabase(); 
     const collection = db.collection(usersCollection);
 

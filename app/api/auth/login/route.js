@@ -61,7 +61,7 @@ export async function POST(request) {
 
 // Function to fetch a user by email and password
 async function fetchUserFromDatabase(email, password) {
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+   
 
   try {
   
@@ -83,15 +83,13 @@ async function fetchUserFromDatabase(email, password) {
   } catch (error) {
     console.error('Error fetching user from database:', error);
     return null;
-  } finally {
-    await client.close();
-  }
+  }  
 }
 
 
 async function fetchGoogleUserFromDatabase(id, googleId) {
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-console.log("FETCH", id, googleId)
+  
+ 
   try {
     const { db } = await connectToDatabase(); 
     const collection = db.collection(usersCollection);
@@ -102,7 +100,5 @@ console.log("FETCH", id, googleId)
   } catch (error) {
     console.error('Error fetching Google user from database:', error);
     return null;
-  } finally {
-    await client.close();
-  }
+  }  
 }

@@ -43,7 +43,7 @@ export default function RootLayout({
             persistor={persistedStore}
           >
             <AppProvider>
-              <LayoutWithLoader>{children}</LayoutWithLoader>
+               {children} 
             </AppProvider>
           </PersistGate>
         </Provider>
@@ -60,13 +60,7 @@ function LayoutWithLoader({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
 
-    if (loading) {
-    
-    const timer = setTimeout(() => {
-      dispatch(setLoading(false)); // Stop loading after 3 seconds
-    }, 2400);
-
-    return () => clearTimeout(timer); }
+  dispatch(setLoading(false))
   }, []);
 
   // Track page views with ReactGA

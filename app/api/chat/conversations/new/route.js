@@ -1,6 +1,5 @@
- 
 import mongoose from 'mongoose';
- import connectToDatabase from '../../../../lib/mongo.js';
+import connectToDatabase from '../../../../lib/mongo.js';
 
 const convoSchema = new mongoose.Schema({
   model: { type: String, required: true },
@@ -19,18 +18,13 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const { provider, email } = body;
-    const uri = process.env.MONGO_URI; 
- 
-    const dbName = 'newDB';
     const usersCollection = 'users';
-    
+    const convoCollection = 'convos';
  
     const { db } = await connectToDatabase(); 
     const collection = db.collection(usersCollection);
+    const convosCollection = db.collection(convoCollection);
     
- 
-    
-
     if (!provider || !provider.id || !provider.prompt || !email) {
       return new Response(JSON.stringify({ error: 'Invalid provider data' }), {
         status: 400,
@@ -61,9 +55,7 @@ The roleplay starts here:  ...
       ],
     };
 
-     
- 
-    const existingConvo = await Convo.find({ model: provider.id, user: user._id});
+    const existingConvo = await convosCollection.find({ model: provider.id, user: user._id }).toArray();
     
     if (existingConvo.length >= 1) {
       return new Response(JSON.stringify({ error: 'Conversation with this model already exists' }), {
@@ -71,8 +63,9 @@ The roleplay starts here:  ...
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    const createdConvo = await Convo.create(convo);
-    const newArray = await Convo.find({user: user._id});
+
+    const createdConvo = await convosCollection.insertOne(convo);
+    const newArray = await convosCollection.find({ user: user._id }).toArray();
      
     if (createdConvo) {
       return new Response(JSON.stringify(newArray), { status: 200 });

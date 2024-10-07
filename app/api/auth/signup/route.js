@@ -78,7 +78,5 @@ console.log(existingUser)
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
-  } finally {
-    await client.close();
-  }
+  } 
 }

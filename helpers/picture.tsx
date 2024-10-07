@@ -30,7 +30,7 @@ const GeneratePicture = async (
     
 
     const response = await axios.post(
-      'https://ominous-trout-wrgv77796qrpcg67r-3000.app.github.dev/api/chat/photo',
+      'https://3000-bobsburgerz-chatai-6lsn50cr1ya.ws-us116.gitpod.io/api/chat/photo',
       { "prompt": opt, "source": img },
       { headers: { 'Content-Type': 'application/json' } }
     );

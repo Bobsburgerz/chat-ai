@@ -14,8 +14,6 @@ export async function POST(request) {
     }
     const id = new ObjectId(userId)
     const uri = process.env.MONGO_URI;
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    const dbName = 'newDB';
     const convoCollection = 'convos';
     
   
@@ -25,8 +23,7 @@ export async function POST(request) {
  
     const convos = await collection.find({user: id }).toArray();
 
-    // Close the client after the operation
-    await client.close();
+   
 
     if (convos.length > 0) {
       return new Response(JSON.stringify( convos ), { status: 200, headers: { 'Content-Type': 'application/json' } });
@@ -36,7 +33,7 @@ export async function POST(request) {
     }
   } catch (error) {
     console.error(error.message);
-    if (client) await client.close();
+    
 
     return new Response(JSON.stringify({ error: 'Something went wrong' }), {
       status: 500,

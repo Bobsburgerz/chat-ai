@@ -2,7 +2,8 @@
 import { NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 import mongoose from 'mongoose';
-
+import {  ObjectId } from 'mongodb';
+import connectToDatabase from '../../../lib/mongo';
 const groq = new Groq({ apiKey: process.env.GROQ_KEY });
 const convoSchema = new mongoose.Schema({
   model: { type: String, required: true },
@@ -19,7 +20,14 @@ const Convo = mongoose.models.Convo || mongoose.model('Convo', convoSchema);
 
 export async function POST(request) {
   const { messages, _id } = await request.json();
-
+  const convoCollection = 'convos';
+    
+  
+   
+    const { db } = await connectToDatabase(); 
+    const collection = db.collection(convoCollection);
+ 
+    
   try {
     const chatCompletion = await groq.chat.completions.create({
       messages,
@@ -33,12 +41,15 @@ export async function POST(request) {
     const responseContent = chatCompletion.choices[0]?.message?.content || '';
     const updatedMessages = [...messages, { role: "assistant", content: responseContent }];
 
-   
-    const updatedConvo = await Convo.findByIdAndUpdate(
-      _id,
-      { $set: { messages: updatedMessages } },  
-      { new: true }  
+ 
+ 
+
+    const updatedConvo = await collection.updateOne(
+      { _id: new ObjectId(_id) },
+      { $set: { messages: updatedMessages }},
+      { returnDocument: 'after' } 
     );
+    
     if (!updatedConvo) {
       return new Response(JSON.stringify({ error: 'Conversation not found' }), {
         status: 404,

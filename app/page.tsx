@@ -48,7 +48,7 @@ const Products = () => {
    
     const getUpdate = async () => {
     if (success && user) {
-      await getUser(user?.email)
+      await getUser({email: user?.email})
       setSuccessMsg(true)
    
     }}

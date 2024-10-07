@@ -4,9 +4,6 @@ import { NextResponse } from 'next/server';
 import connectToDatabase from '../../../../lib/mongo';
 import { ObjectId } from 'mongodb';
  
-
-const uri = process.env.MONGO_URI;
-const dbName = 'newDB';
 const collection = 'users';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET ? process.env.STRIPE_SECRET :'sk_test_51LGwewJ0oWXoHVY4pMmWjhneKKna7PB95rrVnDHeDiqxC1VAjHxx7oGFmmzAHvxOsrHr8C7rxWKDh5fET0gIpyVI002KxafOxj');
@@ -14,8 +11,6 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET ? process.env.STRIPE_WE
  
 
 async function updateUserCredits(userId, credits, customerId) {
-  const client = new MongoClient(uri);  
-
   const updates = { credits, customer: customerId , premium: true};
  
   try {
@@ -35,7 +30,7 @@ async function updateUserCredits(userId, credits, customerId) {
     
     
     else if (customerId) {
-     
+     console.log(customerId)
       const res = await usersCollection.findOneAndUpdate(
         { customer: customerId },  
         { $set: updates },
@@ -52,9 +47,7 @@ async function updateUserCredits(userId, credits, customerId) {
   } catch (err) {
     console.error('Error updating user credits:', err);
     throw err;
-  } finally {
-    await client.close();  // Ensure the connection is closed
-  }
+  } 
 }
 
 export async function POST(request) {
@@ -74,7 +67,7 @@ export async function POST(request) {
   switch (event.type) {
     case 'invoice.payment_succeeded':
       const invoice = event.data.object;
-      const userId = null;
+      const userId = invoice.subscription_details.metadata.userId;
       const customerId = invoice.customer
       try {
        

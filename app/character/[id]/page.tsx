@@ -87,7 +87,7 @@ const deleteMessage = async (provider: any) => {
  
  if (res.data?.length > 0) {
     setConversation(res?.data[0]); 
-    } else {
+    } else if (convos.length <= 1) {
       router.push('/')
     }
   }
@@ -415,7 +415,7 @@ setSignup(true)
   <div
     key={convo.id}   
     onClick={() => setConversation(convo)}
-    className={`${styles.convo} ${selectedConvo?._id == convo.id ? styles.selectedConvo : ''}`}
+    className={`${styles.convo} `}
     style={{ display: 'flex', columnGap: '15px', alignItems: 'center'}}
   >   
     <div>
@@ -466,7 +466,7 @@ setSignup(true)
            <div style={{height: '100vh', width: '100%'}}> 
          
             <div ref={chatBoxRef} className={styles.chatBox}>
-              {1 >= messages.length ? <> <p   style={{justifyContent: 'start', display: 'block' }} 
+              {1 >= messages?.length ? <> <p   style={{justifyContent: 'start', display: 'block' }} 
                 className={ styles.aiMessage}>{selectedModel?.firstMessage}</p></>: <></> } 
               
               {messages?.filter((msg) => msg.role !== 'system').map((msg, index) => (
