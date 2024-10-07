@@ -6,8 +6,8 @@ import { ObjectId } from 'mongodb';
  
 const collection = 'users';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET ? process.env.STRIPE_SECRET :'sk_test_51LGwewJ0oWXoHVY4pMmWjhneKKna7PB95rrVnDHeDiqxC1VAjHxx7oGFmmzAHvxOsrHr8C7rxWKDh5fET0gIpyVI002KxafOxj');
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET ? process.env.STRIPE_WEBHOOK_SECRET : 'whsec_qb9rpVSfMJidnlKLUa5YxHfn95UJkcfX';
+const stripe = new Stripe(process.env.STRIPE_SECRET);
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
  
 
 async function updateUserCredits(userId, credits, customerId) {

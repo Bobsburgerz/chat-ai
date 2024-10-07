@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import styles from './sidebar.module.css'; //   Import the CSS module
+import styles from './sidebar.module.css';  
 import { useLogoutMutation } from '@/redux/services/appApi'
 import { useSelector , useDispatch} from "react-redux";
 import Signup from "./signup"

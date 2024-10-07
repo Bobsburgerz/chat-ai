@@ -166,7 +166,10 @@ The roleplay starts here: ${def?.prompt}`
   const [isToggled, setIsToggled] = useState(false);
   const [openPayModal, setOpenPayModal] = useState(false);
   const togglePosition = () => {
-    if (user?.premium) {
+    if (!user){
+      setSignup(true)
+    }
+    else if (user?.premium) {
     setIsToggled(!isToggled);
     } else {
 setOpenPayModal(true)
@@ -234,7 +237,7 @@ setSignup(true)
     if (response.ok) {
       const data = await response.json();
       const aiMessage: Message = { role: 'assistant', content: data.message };
-     await updateConvo(data.convo)
+     await updateConvo(data)
      const current = convos?.find((convo: any) => convo._id == data.convo._id)
      setSelectedConvo(current)
      setMessages([...messages, newMessage, aiMessage]);
@@ -278,7 +281,7 @@ setSignup(true)
           const aiMessage: Message = { role: 'assistant', content: data.message };
   
           // Update the conversation and state
-          await updateConvo(data.convo);
+          await updateConvo(data);
           const current = convos?.find((convo: any) => convo._id == data.convo._id);
           setSelectedConvo(current);
           setMessages([...messages, newMessage, aiMessage]);
@@ -513,7 +516,7 @@ setSignup(true)
           transition: "transform 0.3s ease",  
         }} className={styles.pics}>
         
-           <div  className={styles.picHeader}><h4 style={{marginRight: !isToggled ? '0px': '5px', marginBottom: '-1px'}}>Get Pictures <span style={{fontSize: '12px', fontWeight:'400'}}>  {user.credits ? <> {user?.credits} / 70</> : <></>}</span> </h4>       
+           <div  className={styles.picHeader}><h4 style={{marginRight: !isToggled ? '0px': '5px', marginBottom: '-1px'}}>Get Pictures <span style={{fontSize: '12px', fontWeight:'400'}}>  {user?.credits ? <> {user?.credits} / 70</> : <></>}</span> </h4>       
            
            <div style={{ 
           display: isToggled ? "block" : "none",

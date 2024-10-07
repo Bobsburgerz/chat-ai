@@ -22,9 +22,9 @@
   }
 
   .options_register {
-    padding: 5px;
+    padding: 10px;
     border: 1px solid white;
-    border-radius: 5px;
+    border-radius: 18px;
     margin: 8px;
     cursor: pointer;
     background-color: rgb(209, 11, 179);;

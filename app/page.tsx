@@ -13,6 +13,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import Head from 'next/head';
 import generatePicture from '@/helpers/picture';
+import SuccessMessage from '@/components/successModal';
 
 <Head>
   <title>Build a Connection with Your AI Companion | Flirt, Confide, and Chat</title>
@@ -39,7 +40,7 @@ const Products = () => {
    
     const getUpdate = () => {
     if (successMsg) {
-      setTimeout(()=> { setSuccessMsg(false)}, 2000)
+      setTimeout(()=> { setSuccessMsg(false)}, 5000)
     }}
 
     getUpdate()
@@ -95,7 +96,7 @@ const Products = () => {
     <div className={styles.main}>
     <Navbar/>
   
-     {successMsg && <>SUCCESS!!!!!!!</>}
+     {successMsg && <><SuccessMessage onClose={() => setSuccessMsg(false)}/></>}
     <div className={styles.container}>
     <Sidebar/>
  <div className={styles.subcont}> 

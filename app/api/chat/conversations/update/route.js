@@ -2,11 +2,14 @@ import connectToDatabase from '../../../../lib/mongo';
 
 export async function PUT(request) {
   try {
+    console.log('hit')
     const { db } = await connectToDatabase(); // Ensure you connect to the database
-    const body = await request.json();
+    const  body = await request.json();
+    
     const provider = body;
-
+console.log("prop", provider)
     if (!provider || !provider._id) {
+      console.log('err')
       return new Response(JSON.stringify({ error: 'Invalid request' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },

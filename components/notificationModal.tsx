@@ -76,8 +76,8 @@ const Sub = ({ onClose }: SubProps) => {
           <ul className={styles.benefits}>
             <li> ✓ Unlimited Chats</li>
             <li> ✓ Photo Generation</li>
-            <li> ✓ Voice Messages</li>
-            <li> ✓ Phone Calls</li>
+            <li> ✓ Voice Messages <span>Coming Soon</span></li>
+            <li> ✓ Phone Calls <span>Coming Soon</span></li>
             <li> ✓ Exclusive Features</li>
           </ul>
         </div>

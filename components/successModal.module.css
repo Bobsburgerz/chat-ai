@@ -1,0 +1,72 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .modal {
+    background: radial-gradient(circle, #555, #333);
+    position: relative;
+    display: flex;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 100%;
+    color: white;
+    padding: 20px;
+  }
+  
+  .imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .image {
+    max-width: 85%;
+    object-fit: cover;
+  }
+  
+  .text {
+    width: 100%;
+  }
+  
+  .benefits {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  .benefits li {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  @media (max-width: 764px) {
+    .image {
+      display: none;
+    }
+  
+    .text {
+      width: 100%;
+    }
+  }
+  
