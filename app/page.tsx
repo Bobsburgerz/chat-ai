@@ -59,23 +59,22 @@ const Products = () => {
 
     login()
   }, [searchParams]);
+  useEffect(() => {
+  
+    const login = async () => {
+    if (user) {
+    await getUser({email: user?.email})
  
+    }}
+
+    login()
+  }, []);
+
+
 
 
  
   
-  useEffect(() => {
-    
-    const googleId = searchParams.get('googleId');
-    const login = async () => {
-    if (googleId && user) {
-    await getConvos({userId: user._id})
-      setTimeout(() =>  router.push(`/character/00`), 1400 )
-   
-    }}
-
-    login()
-  }, [user]);
  const makeConvo = async (product:any) => {
   if (user) {
   await newConvo({ provider: product, email: user?.email });

@@ -11,7 +11,7 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import products from '@/components/products';
 import Signup from '@/components/signup';
 import GeneratePicture from '@/helpers/picture';
-import { useDeleteConvoMutation, useUpdateConvoMutation,useGetConvosMutation,usePutUserMutation,useNewConvoMutation} from '../../../redux/services/appApi'
+import { useDeleteConvoMutation, useUpdateConvoMutation,useGetUserMutation, useGetConvosMutation,usePutUserMutation,useNewConvoMutation} from '../../../redux/services/appApi'
 import { useSelector } from "react-redux";
  import ImageModal from '@/components/imageModal';
  
@@ -52,7 +52,7 @@ const CharacterPage = () => {
  const [updateConvo] = useUpdateConvoMutation()
  const [getConvos] = useGetConvosMutation()
  const router = useRouter();
- 
+ const [getUser] = useGetUserMutation()
  const [deleteConvo, { isError, isLoading, error }] = useDeleteConvoMutation();
  const [msgLoading, setMsgLoading] = useState(false)
  const [putUser , {}] = usePutUserMutation();
@@ -161,6 +161,16 @@ The roleplay starts here: ${def?.prompt}`
   }, [selectedConvo]);
 
 
+  useEffect(() => {
+  
+    const login = async () => {
+    if (user) {
+    await getUser({email: user?.email})
+ 
+    }}
+
+    login()
+  }, []);
 
 
   const [isToggled, setIsToggled] = useState(false);
