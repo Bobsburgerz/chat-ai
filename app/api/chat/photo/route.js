@@ -79,7 +79,7 @@ console.log("source",sourceImage,  output);
       const response_1 = await fetch(output);
       const targetImage = await response_1.blob();
 console.log("target",targetImage);
-      const app = await Client.connect("weepakistan/nsfw-face-swap");
+      const app = await Client.connect("Arivmta19/nsfw-face-swap");
       const faceSwapResponse = await app.predict("/predict", {
        
         source_file: sourceImage, 	 
