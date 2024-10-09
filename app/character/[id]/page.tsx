@@ -332,20 +332,20 @@ setSignup(true)
   const picOptions = [
     {
       name: "Boobs", 
-      value: `Full body shot of a beautiful woman with exposed perky breasts (size: DD cup), natural curves, highly detailed skin and hands, big boobs, large tits, soft natural lighting, shot in a well-lit room. Realistic body with natural skin texture, attractive and seductive pose. Hair color: ${selectedModel?.hairColor}, Skin tone: ${selectedModel?.skinTone}. Ultra-realistic rendering, best quality, lifelike skin detail, flawless anatomy.`
+      value: `Full body shot of a beautiful woman with exposed perky breasts (size: D cup), natural curves, highly detailed skin and hands, big boobs,  pornstar, porn scene, xxx, nsfw, large tits, soft natural lighting, shot in a well-lit room. Realistic body with natural skin texture, attractive and seductive pose. Hair color: ${selectedModel?.hairColor}, Skin tone: ${selectedModel?.skinTone}. Ultra-realistic rendering, best quality, lifelike skin detail, flawless anatomy, slim toned body, 1 girl.`
     },
     {
       name: "Ass", 
-      value: `Side or rear view of a beautiful woman showing her buttocks, perfect curves, and smooth skin. Naked or minimally clothed, high resolution details on skin, body, and hands. Soft, natural lighting in a light room setting. Realistic body with no extra fingers or deformations. Hair color: ${selectedModel?.hairColor}, Skin tone: ${selectedModel?.skinTone}. Ultra-detailed, lifelike body, high-quality rendering.`
+      value: `Side or rear view of a beautiful woman showing her buttocks,Booty, ass perfect curves, and smooth skin. Naked , asshole, pornstar, porn scene, xxx, nsfw, high resolution details on skin, body, and hands. Soft, natural lighting in a light room setting. Realistic body with no extra fingers or deformations. Hair color: ${selectedModel?.hairColor}, Skin tone: ${selectedModel?.skinTone}. Ultra-detailed, lifelike body, high-quality rendering, slim toned body, 1 girl.`
     },
     {
       name: "Lingerie", 
-      value: `A beautiful woman wearing sexy lingerie, large tits, big boobs, posing seductively in a softly lit bedroom. Highly detailed rendering of stockings, lace, and fabric textures. Perfectly proportioned body with large perky breasts and an attractive figure. No missing limbs or deformities, flawless hands and skin detail. Hair color: ${selectedModel?.hairColor}, Skin tone: ${selectedModel?.skinTone}. Realistic lighting and textures, ultra-detailed, high-resolution.`
+      value: `A beautiful woman wearing sexy lingerie, large tits, big boobs, posing seductively in a softly lit bedroom. Highly detailed rendering of stockings, pornstar, porn scene, xxx, nsfw, lace, and fabric textures. Perfectly proportioned body with large perky breasts and an attractive figure. No missing limbs or deformities, flawless hands and skin detail. Hair color: ${selectedModel?.hairColor}, Skin tone: ${selectedModel?.skinTone}. Realistic lighting and textures, ultra-detailed, high-resolution , slim toned body, 1 girl.`
     },
     {
       name: "Pussy", 
-      value: `A beautiful woman with her legs spread showing her pussy, posing seductively in a softly, big boobs, large tits,
-       lit bedroom. No underwear, Highly detailed rendering of naked vagina, clit, legs spread, and breasts. Perfectly proportioned body with large perky breasts ( D cup size )and an attractive figure. No missing limbs or deformities, flawless hands and skin detail. Hair color: ${selectedModel?.hairColor}, Skin tone: ${selectedModel?.skinTone}. Realistic lighting and textures, ultra-detailed, high-resolution.`
+      value: `A beautiful woman with her legs spread showing her pussy, posing seductively, big boobs, large tits, xxx, pornstar, porn scene, nsfw,
+      bedroom. No underwear, Highly detailed rendering of naked vagina, clit, legs spread, and breasts. Perfectly proportioned body with large perky breasts ( D cup size )and an attractive figure. No missing limbs or deformities, flawless hands and skin detail. Hair color: ${selectedModel?.hairColor}, Skin tone: ${selectedModel?.skinTone}. Realistic lighting and textures, ultra-detailed, high-resolution, slim toned body, 1 girl.`
     }
 
   ];
