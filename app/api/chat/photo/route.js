@@ -79,14 +79,13 @@ console.log("source",sourceImage,  output);
       const response_1 = await fetch(output);
       const targetImage = await response_1.blob();
 console.log("target",targetImage);
-      const app = await Client.connect("felixrosberg/face-swap");
-      const faceSwapResponse = await app.predict("/run_inference", [
-        targetImage, 	 
-        sourceImage, 	 
-              0,  	
-              0,  
-              ["Compare"],  
-        ]);
+      const app = await Client.connect("weepakistan/nsfw-face-swap");
+      const faceSwapResponse = await app.predict("/predict", {
+       
+        source_file: sourceImage, 	 
+        target_file: targetImage,  		
+        doFaceEnhancer: false, 
+        });
  
     
       if (!faceSwapResponse ) {
