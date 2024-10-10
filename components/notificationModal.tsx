@@ -60,8 +60,8 @@ const Sub = ({ onClose }: SubProps) => {
 
             <div className={styles.planCard}>
               <h2>Monthly</h2>
-              <p className={styles.discount}>35% OFF</p>
-              <p className={styles.price}>$12.99 / month</p>
+              <p className={styles.discount}>55% OFF</p>
+              <p className={styles.price}>$8.99 / month</p>
               <p className={styles.oldPrice}>Was $19.99/month</p>
               <button 
                 className={styles.subscribeButton} 
