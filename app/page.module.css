@@ -29,26 +29,37 @@
   object-fit: cover;
 }
 
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 238, 255, 0.5), 0 0 20px rgba(255, 238, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 238, 255, 0.8), 0 0 40px rgba(255, 238, 255, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 238, 255, 0.5), 0 0 20px rgba(255, 238, 255, 0.5);
+  }
+}
+
 .btnPro {
-  background-color: rgb(209, 11, 179);;
+  background-color: rgb(209, 11, 179);
   padding: 10px 25px;
   color: white;
-  border: 1px solid rgb(209, 11, 179);;
+  border: 1px solid rgb(245, 245, 245);
   font-size: larger;
   border-radius: 25px;
   position: relative;
   cursor: pointer;
- 
+  max-width: 225px;
+
+  /* Add the animation */
+  animation: pulseGlow 2s infinite ease-in-out;
 }
-
-
 
 .btnPro:hover {
   border: 1px solid white;
-  transition: .3s ease-in-out;
+  transition: 0.3s ease-in-out;
   background-color: rgb(250, 11, 214);
-  box-shadow: 0 5px 15px  rgba(255, 238, 255, 0.62);
-  
 }
 .banner {
  
@@ -67,9 +78,9 @@
 
 .flexCol h1 {
   font-family: "Poetsen One", sans-serif;
-
-
-
+  font-size: 62px;
+  -webkit-text-stroke: .7px #ff66c7; /* Outline color and thickness */
+  color: white; /* Text fill color */
 }
 
 .container {
@@ -164,6 +175,14 @@
     grid-template-columns: 1fr;
     padding: 10px;
   }
+
+  .flexCol h1 {
+    font-family: "Poetsen One", sans-serif;
+  font-size: 21px
+
+
+  }
+
 
   .bannerImg {
     max-height: 240px;

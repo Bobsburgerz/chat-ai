@@ -32,6 +32,12 @@
   
   }
 
+.options_register:hover {
+  border: 1px solid white;
+   box-shadow: 0 0 5px rgba(255, 238, 255, 0.7), 0 0 10px rgba(255, 238, 255, 0.7);
+  transition: 0.3s ease-in-out;
+  background-color: rgb(250, 11, 214);
+}
 
    
   .options:hover {
