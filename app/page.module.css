@@ -5,7 +5,7 @@
   font-family: 'Arial', sans-serif;
   color: white;
   margin: 0;
-  background: linear-gradient(135deg, #363535 40%, rgb(209, 11, 179) 100%);
+  background: linear-gradient(135deg,rgb(209, 11, 179) 5%, #363535 110%);
   padding: 0;
 }
 
@@ -21,8 +21,9 @@
 }
 
 .bannerImg {
-  max-height: 340px;
-  max-width: 500px;
+  max-height: 350px;
+  max-width: 700px;
+  min-width: 300px;
   width: 100%;
   margin-bottom: -15px;
   object-position: top; 
@@ -51,7 +52,7 @@
   position: relative;
   cursor: pointer;
   max-width: 225px;
-
+ min-width: 200px;
   /* Add the animation */
   animation: pulseGlow 2s infinite ease-in-out;
 }
@@ -62,28 +63,36 @@
   background-color: rgb(250, 11, 214);
 }
 .banner {
- 
+  background: rgba(255, 238, 255, 0.2);
+ border-bottom: 5px solid white;
+  padding-bottom: 12px;
   display:flex;
-  justify-content: space-between;
+  column-gap: 35px;
+  justify-content: center;
+   
   align-items: center;
-
+text-align: center;
 }
 
 .flexCol {
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 25px;
+  margin-right: 50px;
   padding: 10px;
 }
 
 .flexCol h1 {
   font-family: "Poetsen One", sans-serif;
-  font-size: 62px;
+  font-size: 65px;
   -webkit-text-stroke: .7px #ff66c7; /* Outline color and thickness */
   color: white; /* Text fill color */
 }
 
 .container {
+ justify-content: center;
   
   display: flex;
   flex-direction: row;
@@ -178,7 +187,7 @@
 
   .flexCol h1 {
     font-family: "Poetsen One", sans-serif;
-  font-size: 21px
+  font-size: 23px
 
 
   }
@@ -206,17 +215,11 @@
   .bannerImg {
 display: none;
   }
-  
 
-  .bannerImg {
-    max-height: 200px;
-    max-width: 250px;
-    width: 100%;
-    margin-bottom: -15px;
-    object-position: top; 
-    object-fit: cover;
+  .banner {
+    padding: 25px;
   }
-  
+ 
 
   .mainImg {
     height: 400px;
