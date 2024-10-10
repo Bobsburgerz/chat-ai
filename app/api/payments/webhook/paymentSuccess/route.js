@@ -6,7 +6,7 @@ import { ObjectId } from 'mongodb';
  
 const collection = 'users';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
  
 

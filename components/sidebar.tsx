@@ -56,7 +56,7 @@ const setLogout = async () => {
 const navigate = async (name: string) => {
   dispatch(setLoading(true))
   if (name == "Billing" && user?.customer){
-    console.log("hit")
+  
    await  handleManageSubscription(user.customer)
   }
   if (name == "Messages"  && !user) {
