@@ -41,7 +41,7 @@ export async function POST(request) {
     const responseContent = chatCompletion.choices[0]?.message?.content || '';
     const updatedMessages = [...messages, { role: "assistant", content: responseContent }];
 
- 
+ console.log("Upated msg")
  
     const updatedConvo = await collection.findOneAndUpdate(
       { _id: new ObjectId(_id) },
