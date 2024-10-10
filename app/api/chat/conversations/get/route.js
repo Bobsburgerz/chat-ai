@@ -12,7 +12,7 @@ export async function POST(request) {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    const id = new ObjectId(userId)
+     
    
     const convoCollection = 'convos';
     
@@ -21,7 +21,7 @@ export async function POST(request) {
     const { db } = await connectToDatabase(); 
     const collection = db.collection(convoCollection);
  
-    const convos = await collection.find({user: id }).toArray();
+    const convos = await collection.find({user: userId }).toArray();
 
    
 
