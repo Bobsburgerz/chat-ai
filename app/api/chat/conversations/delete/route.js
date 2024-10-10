@@ -27,7 +27,7 @@ console.log(deletedConvo.user)
     if (deletedConvo) {
       // Find remaining conversations by user after deletion
       const remainingConvos = await db.collection(convoCollection).find({
-        user: new ObjectId(deletedConvo.user)
+        user: deletedConvo.user
       }).toArray()
     console.log(remainingConvos)
       return new Response(JSON.stringify(remainingConvos), { status: 200 });

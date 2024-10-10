@@ -39,7 +39,8 @@ export async function PUT(request) {
     // Find remaining conversations for the same user
     const remainingConvos = await db.collection(convoCollection).find({ user: updatedConvo.user }).toArray();
 
-    console.log(remainingConvos.length)
+
+    console.log(remainingConvos)
     return new Response(JSON.stringify(remainingConvos), { status: 200 });
   } catch (error) {
     console.error('Error occurred:', error.message);

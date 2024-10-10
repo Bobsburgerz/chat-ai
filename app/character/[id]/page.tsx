@@ -431,6 +431,8 @@ setSignup(true)
     className={`${styles.convo} `}
     style={{ display: 'flex', columnGap: '15px', alignItems: 'center'}}
   >   
+
+   
     <div>
       <img className={styles.proPic} src={model?.image || selectedModel?.image} />
     </div>
