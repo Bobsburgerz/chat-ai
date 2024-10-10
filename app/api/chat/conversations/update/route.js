@@ -8,7 +8,7 @@ export async function PUT(request) {
     const body = await request.json();
 
     const provider = body.convo;
-  
+    console.log("prop", provider);
 
     if (!provider || !provider._id) {
       console.log('err');
@@ -35,11 +35,11 @@ export async function PUT(request) {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    const id = new ObjectId(updatedConvo.user)
-  
-    const remainingConvos = await db.collection(convoCollection).find({ user: id }).toArray();
 
-   
+    // Find remaining conversations for the same user
+    const remainingConvos = await db.collection(convoCollection).find({ user: updatedConvo.user }).toArray();
+
+    console.log(remainingConvos.length)
     return new Response(JSON.stringify(remainingConvos), { status: 200 });
   } catch (error) {
     console.error('Error occurred:', error.message);
