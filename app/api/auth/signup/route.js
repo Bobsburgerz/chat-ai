@@ -8,14 +8,19 @@ const dbName = 'newDB';
 const usersCollection = 'users';
 
 export async function POST(request) {
+  // Parse the JSON body from the request
   const { email, password } = await request.json();
 
+
   try {
-    const { db } = await connectToDatabase();
+    const { db } = await connectToDatabase(); 
     const collection = db.collection(usersCollection);
 
-    // Check if user already exists
+    // Check if the user already exists
     const existingUser = await collection.findOne({ email });
+
+console.log(existingUser)
+
     if (existingUser) {
       return new Response(JSON.stringify({ error: 'User already exists' }), {
         status: 410,
@@ -23,40 +28,33 @@ export async function POST(request) {
       });
     }
 
-    // Hash password
+    // Hash the password before storing it
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generate random confirmation code
-    const randomCode = Math.floor(100000 + Math.random() * 900000);
-
+    // Create a new user with the hashed password
     const newUser = {
       email: email,
       password: hashedPassword,
-      confirmationCode: randomCode,
-      confirmed: false,  
     };
 
     const result = await collection.insertOne(newUser);
 
     if (result.insertedId) {
-       
+      // Create JWT token
       const token = jwt.sign(
         {
           id: result.insertedId,
           email: newUser.email,
         },
-        process.env.JWT_SECRET || 'xybgj',
+        process.env.JWT_SECRET || 'xybgj',  // Use a secure secret in production
         { expiresIn: '1h' }
       );
 
-      // Send confirmation email
-      await sendEmail(email, randomCode);
 
-      // Set cookie
       const cookie = serialize('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 60 * 60,
+        secure: process.env.NODE_ENV === 'production',  // Ensure secure flag in production
+        maxAge: 60 * 60, // 1 hour
         path: '/',
         sameSite: 'strict',
       });
@@ -75,44 +73,10 @@ export async function POST(request) {
       });
     }
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error connecting to MongoDB:', error);
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
-  }
-}
-
-const mailjet = require('node-mailjet').connect(
-  process.env.MJ_APIKEY_PUBLIC,
-  process.env.MJ_APIKEY_PRIVATE
-);
-
-async function sendEmail(email, randomCode) {
-  try {
-    const request = mailjet.post('send', { version: 'v3.1' }).request({
-      Messages: [
-        {
-          From: {
-            Email: 'info@cumcams.xyz',
-            Name: 'CM CMS MEDIA',
-          },
-          To: [
-            {
-              Email: email,
-              Name: email,
-            },
-          ],
-          Subject: 'Register Your Account',
-          TextPart: 'Confirmation Code',
-          HTMLPart: `<h3>Welcome to Cumcams.xyz! <a href="https://www.cumcams.xyz?confirm=${randomCode}">Click here</a></h3><br /> to confirm your email.`,
-        },
-      ],
-    });
-
-    const result = await request;
-    console.log('Email sent successfully:', result.body);
-  } catch (err) {
-    console.error('Error sending email:', err.statusCode || err.message);
-  }
+  } 
 }
