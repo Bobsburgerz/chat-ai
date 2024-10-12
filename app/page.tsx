@@ -6,10 +6,10 @@ import Sidebar from "../components/sidebar"
 import Navbar from "../components/navbar" 
 import products from '@/components/products';
 import { useSelector , useDispatch} from "react-redux";
-import { useNewConvoMutation, useUpdateUserMutation, useGetUserMutation ,useGetConvosMutation} from "../redux/services/appApi";
+import { useNewConvoMutation, useUpdateUserMutation, useGetUserMutation ,useGetConvosMutation } from "../redux/services/appApi";
 import { useParams } from 'next/navigation';
 import { useRouter, useSearchParams } from 'next/navigation';
- 
+ import SuggestionModal from "../components/suggest";
 
 import Head from 'next/head';
 import generatePicture from '@/helpers/picture';
@@ -24,21 +24,21 @@ const Products = () => {
   const [getUser] = useGetUserMutation();
   const router = useRouter();
   
-  const [successMsg, setSuccessMsg] = useState(false)
+  const [successMsg, setSuccessMsg] = useState(false);
   const  success  = searchParams.get('success');
   const user = useSelector((state: any) => state.user);
-  const [getConvos ] = useGetConvosMutation()
+  const [getConvos] = useGetConvosMutation();
+  const [suggest, setSuggest] = useState(null);
+  
   useEffect(() => {
-   
     const getUpdate = () => {
     if (successMsg) {
       setTimeout(()=> { setSuccessMsg(false)}, 5000)
     }}
-
     getUpdate()
   }, [successMsg, success]);
-  useEffect(() => {
-   
+  
+  useEffect(() => { 
     const getUpdate = async () => {
     if (success && user) {
       await getUser({email: user?.email})
@@ -48,6 +48,7 @@ const Products = () => {
 
     getUpdate()
   }, [success]);
+  
   useEffect(() => {
     const id = searchParams.get('id');
     const googleId = searchParams.get('googleId');
@@ -59,6 +60,8 @@ const Products = () => {
 
     login()
   }, [searchParams]);
+  
+  
   useEffect(() => {
   
     const login = async () => {
@@ -70,12 +73,7 @@ const Products = () => {
     login()
   }, []);
 
-
-
-
- 
-  
- const makeConvo = async (product:any) => {
+const makeConvo = async (product:any) => {
   if (user) {
   await newConvo({ provider: product, email: user?.email });
   } 
@@ -97,7 +95,7 @@ const Products = () => {
 </Head>
  
     <div className={styles.main}>
-    <Navbar/>
+   
   
      {successMsg && <><SuccessMessage onClose={() => setSuccessMsg(false)}/></>}
     <div className={styles.container}>
@@ -112,9 +110,10 @@ const Products = () => {
    
  <div className={styles.flexCol}> 
  <h1 >Your Personal AI Girlfriend!</h1>
+   <div className={styles.btnRow}> 
  <button onClick={() => makeConvo(products[4])} className={styles.btnPro}> Start Chatting </button>
- 
- 
+   <button onClick={() => router.push(`/images`)} className={styles.btnPics}> Generate Pics </button>
+     </div>
  
  </div>
     
@@ -137,7 +136,7 @@ const Products = () => {
           ))}
         </main></div>
       </div>
-       
+  
     </div>
     </>
   );

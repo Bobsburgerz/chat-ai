@@ -1,42 +1,40 @@
 'use client'
 import React, {useState} from 'react';
- import Login from "./login"
+import Login from "./login"
 import styles from './navbar.module.css';  
 import Link from 'next/link';
 import { useSelector} from "react-redux";
+import Suggest from "./suggest";
 import Sub from "./notificationModal"
 const Navbar = () => {
-  const [login, setLogin] = useState(false)
-  const [sub, setSub] = useState(false)
-  const user = useSelector((state: any) => state.user);
-    return (
-        <header className={styles.header}>
-     
-        <div 
-        className={styles.logo}>      <Link href="/"> <span style={{fontWeight: '700' ,
-        color: 'rgb(209, 11, 179)'}}> Cumcams 💜 </span></Link>
+const [openSuggest, setOpenSuggest] = useState(false);
+const [login, setLogin] = useState(false)
+const [sub, setSub] = useState(false)
+const user = useSelector((state: any) => state.user);
+  return (
+        <header className={styles.header}>   
+        <div className={styles.logo}>     
+          <Link href="/"> <span style={{fontWeight: '700' ,color:'rgb(209,11,179)'}}> Cumcams 💜 </span></Link>
             {sub && <><Sub onClose={() => setSub(false)} /> </>}
         {login && <><Login onClose={() => setLogin(false)}/> </>}
         </div>
-        <nav className={styles.nav}>
-
-       
+        <nav className={styles.nav}> 
           <ul>
-      
            <li onClick={() => {
   if (!user?.premium) {
     setSub(true);
   } else {
- 
   return;
   }
-}} className={!user?.premium ? styles.btnPro : styles.premiumBtn}>{user?.premium ? <>Premium ★</>: <>Subscribe</>}</li>
-            <li onClick={() => setLogin(true)}>Login</li>
-       
- 
+}} className={!user?.premium ? styles.btnPro : styles.premiumBtn}>{user?.premium ? <>Premium ★</>: <>Subscribe</>}</li>            
+             
+
+            {!user ? <>  <li onClick={() => setLogin(true)}>Login</li> </> : <>   <li  onClick={() => openSuggest(true)}className={styles.suggest}>Feature Request</li >
+              <li onClick={() => setLogin(true)}>Logout</li></>}
           </ul>
           
         </nav>
+          {openSuggest ? <><Suggest onClose={() => setOpenSuggetst(false)}/></> :<></>}
       </header>
     )
 }

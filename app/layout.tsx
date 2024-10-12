@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import store from "../redux/store";
 import { AppProvider } from "../context/AppProvider";
 import { setLoading } from "@/redux/slice/loadingSlice";
-
+import Navbar from "../components/navbar";
+import Sidebar from "../components/sidebar";
 import "./globals.css";
 import ReactGA from "react-ga4";
 
@@ -43,6 +44,8 @@ export default function RootLayout({
             persistor={persistedStore}
           >
             <AppProvider>
+              <Navbar />
+          
                {children} 
             </AppProvider>
           </PersistGate>

@@ -10,7 +10,53 @@
 }
 
 
- 
+
+
+.btnRow {
+  display: flex;
+  column-gap: 5px;
+}
+
+
+
+@keyframes pulseGlowPics {
+  0% {
+    box-shadow: 0 0 10px rgb(139, 11, 208, 0.5), 0 0 20px rgb(139, 11, 208, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgb(139, 11, 208, 0.8), 0 0 40px rgb(139, 11, 208, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 10px rgb(139, 11, 208, 0.5), 0 0 20px rgb(139, 11, 208, 0.5);
+  }
+}
+
+.btnPics {
+  background-color: rgb(240, 240, 240);
+  padding: 10px 25px;
+  color: rgb(209, 11, 179);
+  border: 1px solid rgb(209, 11, 179);
+  font-size: larger;
+  border-radius: 25px;
+  position: relative;
+  cursor: pointer;
+  max-width: 225px;
+  min-width: 200px;
+  animation: pulseGlowPics 2s infinite ease-in-out;
+}
+
+.btnPics:hover {
+    border: 1px solid rgb(209, 11, 179); 
+  transition: 0.3s ease-in-out;
+  background-color: rgb(255, 255, 255);
+}
+ .suggest {
+   background-color:  #363535;
+   position: absolute;
+   bottom: 0px;
+   color: white;
+   right: 25px;
+ }
 
 .subcont {
   display: flex;

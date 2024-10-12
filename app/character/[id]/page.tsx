@@ -403,7 +403,7 @@ setSignup(true)
 
   return (
     <div>
-      <Navbar />
+   
       <div className={styles.container}>
         <Sidebar />
 

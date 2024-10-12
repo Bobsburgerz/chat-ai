@@ -10,7 +10,7 @@
 .characterContainer {
   display: flex;
   flex: 1;
- overflow: hidden;
+ 
 
   text-align: center;
   flex-direction: row;
@@ -103,7 +103,7 @@ top: 0px;
   height: 70vh;
   overflow-y: auto;
   padding: 15px;
-  padding-bottom: 55px;
+  padding-bottom: 65px;
    
   width: 100%;
   display: flex;
